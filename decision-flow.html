@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astriva — Decision-Flow (Shopify Product Page System)</title>
+<meta name="description" content="Decision-Flow is a controlled evaluation system for Shopify product pages — built to stabilize variant selection, clarify pricing, and keep the purchase action accessible." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── TOKENS ── */
+  :root {
+    --black:       #0a0a0a;
+    --off-black:   #111111;
+    --dark:        #1a1a1a;
+    --mid:         #2a2a2a;
+    --border:      rgba(255,255,255,0.08);
+    --white:       #f5f5f0;
+    --white-dim:   rgba(245,245,240,0.6);
+    --white-faint: rgba(245,245,240,0.25);
+    --red:         #c8392b;
+    --red-hover:   #e04535;
+    --mono:        'IBM Plex Mono', monospace;
+    --display:     'Playfair Display', serif;
+    --body:        'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  section { position: relative; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,10,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-brand { display: flex; align-items: baseline; }
+
+  .nav-brand-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .nav-brand-sep {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    margin: 0 8px;
+  }
+
+  .nav-brand-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+  }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    padding: 9px 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--white); color: var(--black); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 0 100px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--white-faint);
+    flex-shrink: 0;
+  }
+
+  .hero-label-brand { color: var(--white); font-weight: 500; }
+  .hero-label-sep { color: var(--white-faint); margin: 0 2px; }
+
+  /* ── Brand definition line ── */
+  .brand-def {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  h1 em { font-style: italic; color: var(--white-dim); }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--white-dim);
+    max-width: 520px;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  /* ── "What it is" one-liner ── */
+  .hero-what {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--white-faint);
+    max-width: 520px;
+    margin-bottom: 40px;
+    line-height: 1.65;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--white-faint);
+  }
+
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 32px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary:hover { background: var(--red-hover); transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--white); border-color: var(--white-dim); }
+
+  .demo-new-tab-note {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--white-faint);
+    margin-top: 10px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  /* ── PROBLEM REFRAME ── */
+  #problem {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .problem-body p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--white-dim);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .problem-body p strong { color: var(--white); font-weight: 500; }
+
+  .divider-line {
+    display: inline-block;
+    background: var(--white-faint);
+    height: 2px;
+    width: 40px;
+    margin: 8px 0 28px;
+  }
+
+  /* ── COST OF INACTION ── */
+  #cost {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--black) 0%, var(--off-black) 100%);
+  }
+
+  .cost-lines { margin: 40px 0; }
+
+  .cost-line {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--white-dim);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .cost-line::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .cost-statement {
+    font-family: var(--display);
+    font-size: clamp(20px, 3vw, 28px);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--white);
+    margin-top: 40px;
+    padding-left: 24px;
+    border-left: 2px solid var(--red);
+  }
+
+  /* ── WHAT THIS IS ── */
+  #what {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* "ships as sections" bridge sentence */
+  .what-bridge {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--white-faint);
+    margin-top: -16px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  .what-item { background: var(--black); padding: 32px 24px; }
+
+  .what-item-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-bottom: 10px;
+  }
+
+  .what-item p { font-size: 14px; color: var(--white-dim); line-height: 1.6; }
+
+  /* ── DELIVERABLES BLOCK ── */
+  .deliverables-block {
+    margin: 0 0 40px;
+    border: 1px solid var(--border);
+  }
+
+  .deliverables-header {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .deliverables-header-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+  }
+
+  .deliverables-header-line { flex: 1; height: 1px; background: var(--border); }
+
+  .deliverables-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .deliverable-item {
+    background: var(--black);
+    padding: 20px 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .deliverable-icon {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .deliverable-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+
+  .deliverable-desc {
+    font-size: 12px;
+    color: var(--white-faint);
+    line-height: 1.55;
+    font-family: var(--mono);
+  }
+
+  .deliverables-compat {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .deliverables-compat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .deliverables-compat-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  /* ── MECHANISM SUMMARY (between §03 and §04) ── */
+  #mechanism {
+    padding: 72px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--off-black);
+  }
+
+  .mech-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    margin-bottom: 32px;
+  }
+
+  .mech-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .mech-row {
+    background: var(--off-black);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 20px;
+    align-items: start;
+    transition: background 0.2s;
+  }
+
+  .mech-row:hover { background: var(--dark); }
+
+  .mech-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--white-faint);
+    padding-top: 3px;
+  }
+
+  .mech-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  .mech-text strong { color: var(--white); font-weight: 500; }
+
+  /* ── BEFORE / AFTER ── */
+  #before-after {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin-top: 48px;
+  }
+
+  .ba-col { background: var(--black); padding: 32px 28px; }
+
+  .ba-col-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .ba-col-label.before { color: var(--white-faint); }
+  .ba-col-label.after  { color: rgba(120,200,140,0.75); }
+
+  .ba-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ba-step {
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.55;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .ba-step:last-child { border-bottom: none; }
+
+  .ba-arrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--white-faint);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .ba-col.after .ba-arrow { color: rgba(120,200,140,0.5); }
+  .ba-col.before .ba-step { color: rgba(245,245,240,0.4); }
+  .ba-col.after  .ba-step { color: var(--white-dim); }
+
+  /* ── ARCHITECTURE ── */
+  #architecture {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .arch-cards {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .arch-card {
+    background: var(--black);
+    padding: 36px 32px;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 32px;
+    cursor: default;
+    transition: background 0.2s;
+  }
+
+  .arch-card:hover { background: var(--off-black); }
+
+  .arch-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    padding-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .arch-title {
+    font-family: var(--body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .arch-rows { display: flex; flex-direction: column; gap: 8px; }
+
+  .arch-row {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 12px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .arch-row-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    padding-top: 2px;
+  }
+
+  .arch-row-label.problem {
+    color: var(--white-dim);
+    font-weight: 600;
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: .02em;
+  }
+
+  .arch-row-label.outcome {
+    color: var(--white-dim);
+    font-weight: 600;
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: .02em;
+    opacity: .85;
+  }
+
+  .arch-row-text { color: var(--white-dim); }
+  .arch-row-text.problem-text { color: rgba(245,245,240,0.5); }
+  .arch-row-text.outcome-text { color: rgba(245,245,240,0.75); }
+
+  /* ── DEMO ── */
+  #demo {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--off-black);
+  }
+
+  .demo-frame {
+    margin-top: 48px;
+    border: 1px solid var(--border);
+    padding: 48px;
+    position: relative;
+    background: var(--black);
+  }
+
+  .demo-frame::before {
+    content: 'LIVE DEMO';
+    position: absolute;
+    top: -1px; left: 32px;
+    background: var(--mid);
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    padding: 4px 12px;
+    color: var(--white-dim);
+  }
+
+  /* ── Demo proof strip ── */
+  .demo-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  .demo-proof-item {
+    background: var(--black);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+
+  .demo-proof-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0.85;
+    transition: opacity 0.3s;
+  }
+
+  .demo-proof-item:hover img { opacity: 1; }
+
+  .demo-proof-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 8px 12px;
+    background: linear-gradient(transparent, rgba(10,10,10,0.9));
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+  }
+
+  .demo-proof-note {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--white-faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .demo-description {
+    font-size: 17px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  .demo-description strong { color: var(--white); font-weight: 500; }
+
+  /* ── WHO ── */
+  #who {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin-top: 48px;
+  }
+
+  .fit-col { background: var(--black); padding: 40px 32px; }
+
+  .fit-col-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .fit-col-label.yes { color: rgba(120,200,140,0.75); }
+  .fit-col-label.no  { color: var(--white-faint); }
+
+  .fit-item {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.65;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .fit-item:last-child { border-bottom: none; }
+
+  .fit-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .fit-dot.yes { background: rgba(120,200,140,0.65); }
+  .fit-dot.no  { background: var(--white-faint); }
+
+  .fit-statement {
+    font-family: var(--display);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--white);
+    margin-top: 40px;
+    line-height: 1.5;
+  }
+
+  /* ── OBJECTIONS ── */
+  #objections {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .obj-list {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .obj-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .obj-item:first-child { border-top: 1px solid var(--border); }
+
+  /* ── FAQ: button element for accessibility ── */
+  .obj-question {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--white);
+    font-family: var(--body);
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 28px 0;
+    user-select: none;
+  }
+
+  .obj-question:focus-visible {
+    outline: 2px solid var(--white-faint);
+    outline-offset: 3px;
+  }
+
+  .obj-toggle {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--white-faint);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+
+  .obj-item.open .obj-toggle { transform: rotate(45deg); color: var(--red); }
+
+  .obj-answer {
+    font-size: 15px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 300;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+
+  .obj-item.open .obj-answer {
+    max-height: 320px;
+    padding-bottom: 24px;
+  }
+
+  /* ── PRICING ── */
+  #pricing {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--off-black);
+  }
+
+  .price-block {
+    margin-top: 48px;
+    border: 1px solid var(--border);
+    padding: 56px 48px;
+    position: relative;
+  }
+
+  .price-badge {
+    position: absolute;
+    top: -1px; right: 32px;
+    background: var(--off-black);
+    border: 1px solid var(--border);
+    border-top: none;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    padding: 4px 14px;
+  }
+
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .price-current {
+    font-family: var(--display);
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .price-original {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--white-faint);
+    text-decoration: line-through;
+  }
+
+  .price-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    margin-bottom: 32px;
+  }
+
+  .price-context {
+    font-size: 14px;
+    color: var(--white-dim);
+    font-style: italic;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .price-threshold {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--white-faint);
+    margin-bottom: 40px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    display: inline-block;
+  }
+
+  /* ── Implementation reality ── */
+  .impl-reality {
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+  }
+
+  .impl-reality-header {
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+  }
+
+  .impl-reality-rows { display: flex; flex-direction: column; }
+
+  .impl-reality-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .impl-reality-row:last-child { border-bottom: none; }
+
+  .impl-reality-key {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--white-faint);
+    padding: 12px 18px;
+    border-right: 1px solid var(--border);
+  }
+
+  .impl-reality-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-dim);
+    padding: 12px 18px;
+    line-height: 1.55;
+  }
+
+  .after-purchase {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .after-item {
+    font-size: 13px;
+    color: var(--white-faint);
+    font-family: var(--mono);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
+  .after-item::before { content: '—'; flex-shrink: 0; }
+
+  /* ── Guarantee highlight ── */
+  .after-item.guarantee {
+    color: var(--white-dim);
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 4px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .after-item.guarantee::before { content: '✓'; color: var(--white); font-weight: 700; }
+
+  /* ── Constraint line under guarantee ── */
+  .after-item.guarantee-constraint {
+    color: rgba(245,245,240,0.35);
+    font-size: 11px;
+    padding: 0 16px 10px;
+  }
+
+  .after-item.guarantee-constraint::before { content: ''; width: 0; }
+
+  .after-item.no-refund { color: rgba(245,245,240,0.3); font-size: 11px; }
+
+  /* ── FINAL CLOSE ── */
+  #close { padding: 120px 0; }
+
+  .close-statement {
+    font-family: var(--display);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+
+  .close-statement em { font-style: italic; color: var(--white-dim); }
+
+  .close-sub {
+    font-size: 17px;
+    color: var(--white-dim);
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 460px;
+    line-height: 1.65;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand { display: flex; align-items: baseline; }
+
+  .footer-brand-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer-brand-sep {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    margin: 0 8px;
+  }
+
+  .footer-brand-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── FOCUS ── */
+  a:focus-visible { outline: 2px solid var(--white-faint); outline-offset: 3px; }
+  .btn-primary:focus-visible { outline: 2px solid rgba(200,57,43,0.55); outline-offset: 3px; }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .btn-primary::after { transition: none; }
+    .demo-proof-item img { transition: none; }
+    .obj-toggle { transition: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    nav { padding: 16px 20px; }
+    .nav-brand-sep, .nav-brand-sub { display: none; }
+    .what-grid { grid-template-columns: 1fr; }
+    .fit-grid { grid-template-columns: 1fr; }
+    .ba-grid { grid-template-columns: 1fr; }
+    .arch-card { grid-template-columns: 36px 1fr; padding-left: 16px; padding-right: 16px; }
+    .arch-row { grid-template-columns: 1fr; gap: 3px; }
+    .arch-row-label { display: inline; margin-right: 6px; }
+    .price-block { padding: 36px 24px; }
+    .price-current { font-size: 56px; }
+    .deliverables-grid { grid-template-columns: 1fr; }
+    .demo-proof { grid-template-columns: 1fr; }
+    .impl-reality-row { grid-template-columns: 1fr; }
+    .impl-reality-key { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .hero-what { font-size: 11px; }
+    .mech-row { padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-brand-name">Astriva</span>
+    <span class="nav-brand-sep">—</span>
+    <span class="nav-brand-sub">Decision-Flow</span>
+  </div>
+  <a href="#pricing" class="nav-cta">Get Decision-Flow — $49 →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-label">
+      <span class="hero-label-brand">Astriva</span>
+      <span class="hero-label-sep">·</span>
+      <span>Shopify Product Page System</span>
+    </div>
+    <p class="brand-def">Decision-Flow is a controlled evaluation system for Shopify product pages.</p>
+    <h1>Your Traffic<br>Is Working.<br><em>Your Page Isn't.</em></h1>
+    <p class="hero-sub reveal">Most stores don't lose sales because of traffic. They lose them inside evaluation.</p>
+    <p class="hero-what reveal reveal-delay-1">It's a section-based product page system (OS 2.0) you drop into your theme — built to control the evaluation phase and increase checkout completion.</p>
+    <div class="cta-group reveal reveal-delay-2">
+      <a href="#pricing" class="btn-primary">Get Decision-Flow — $49 →</a>
+      <a href="#" class="btn-ghost" id="demo-link-hero">Open Live Demo →</a>
+    </div>
+    <span class="demo-new-tab-note reveal reveal-delay-3">Opens in new tab</span>
+  </div>
+</section>
+
+<!-- PROBLEM REFRAME -->
+<section id="problem">
+  <div class="container">
+    <div class="section-num">01 — Problem</div>
+    <h2 class="reveal">You're not here because<br>traffic is the problem.</h2>
+    <div class="divider-line"></div>
+    <div class="problem-body reveal">
+      <p>You're here because traffic is arriving — and <strong>the evaluation phase is where the decision breaks.</strong></p>
+      <p>The page itself is the constraint.</p>
+      <p>Most Shopify product pages are built around <strong>displaying a product.</strong><br>This system is built around <strong>closing a decision.</strong></p>
+      <p>That's the structural difference.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COST OF INACTION -->
+<section id="cost">
+  <div class="container">
+    <div class="section-num">02 — Cost of Inaction</div>
+    <h2 class="reveal">Every campaign you run<br>goes through this page.</h2>
+    <div class="cost-lines reveal">
+      <div class="cost-line">The same hesitation repeats.</div>
+      <div class="cost-line">The same add-to-carts don't complete.</div>
+      <div class="cost-line">The same paid traffic exits without committing.</div>
+    </div>
+    <p class="cost-statement reveal">You're paying to expose the same structural weakness — campaign after campaign. Scaling traffic into an unresolved page doesn't improve results. It compounds the leak.</p>
+  </div>
+</section>
+
+<!-- WHAT THIS IS -->
+<section id="what">
+  <div class="container">
+    <div class="section-num">03 — What You're Getting</div>
+    <h2 class="reveal">A decision architecture.<br>Not a template.</h2>
+    <p class="brand-def reveal" style="margin-bottom:24px;">Decision-Flow is a controlled evaluation system for Shopify product pages.</p>
+    <p class="reveal" style="color:var(--white-dim);font-size:17px;font-weight:300;line-height:1.7;margin-bottom:16px;">A section-based Shopify product page — built around eleven structural decision points. Every element is placed where it needs to be to move a buyer from evaluation to commitment.</p>
+    <p class="what-bridge reveal">It ships as sections, but it's designed as a decision system.</p>
+    <div class="what-grid reveal">
+      <div class="what-item">
+        <div class="what-item-label">Hero Frame</div>
+        <p>Anchored price, trust signal, and primary action — unified above the fold</p>
+      </div>
+      <div class="what-item">
+        <div class="what-item-label">Variant Sync</div>
+        <p>Recalculated pricing on every selection — no decision reset, no layout shift</p>
+      </div>
+      <div class="what-item">
+        <div class="what-item-label">Floating Layer</div>
+        <p>Purchase context re-surfaces when the main CTA exits view</p>
+      </div>
+    </div>
+
+    <div class="deliverables-block reveal">
+      <div class="deliverables-header">
+        <span class="deliverables-header-label">What's included</span>
+        <span class="deliverables-header-line"></span>
+      </div>
+      <div class="deliverables-grid">
+        <div class="deliverable-item">
+          <span class="deliverable-icon">—</span>
+          <div>
+            <div class="deliverable-title">OS 2.0 Section Files</div>
+            <div class="deliverable-desc">Liquid sections + JSON template — drop into most OS 2.0 themes</div>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">—</span>
+          <div>
+            <div class="deliverable-title">Setup Documentation</div>
+            <div class="deliverable-desc">Step-by-step installation guide with annotated screenshots</div>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">—</span>
+          <div>
+            <div class="deliverable-title">Configuration Reference</div>
+            <div class="deliverable-desc">Every setting explained — what it controls and why it's there</div>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">—</span>
+          <div>
+            <div class="deliverable-title">Instant Delivery via Gumroad</div>
+            <div class="deliverable-desc">Files available immediately after purchase — no waiting</div>
+          </div>
+        </div>
+      </div>
+      <div class="deliverables-compat">
+        <span class="deliverables-compat-label">Compatible with</span>
+        <span class="deliverables-compat-text">Shopify OS 2.0 themes. If your product page is heavily customized, minor styling adjustments may be needed — covered by 14-day installation support.</span>
+      </div>
+    </div>
+
+    <a href="#mechanism" class="btn-ghost reveal">See the full architecture ↓</a>
+  </div>
+</section>
+
+<!-- PACKAGING BLOCK -->
+<section id="packaging" style="padding:72px 0;border-bottom:1px solid var(--border);background:var(--off-black);">
+  <div class="container">
+    <div class="mech-label">What You Actually Receive</div>
+    <div class="mech-rows reveal">
+      <div class="mech-row">
+        <span class="mech-num">01</span>
+        <span class="mech-text"><strong>1 Core Product Hero Section (OS 2.0)</strong> — the primary decision frame with live pricing, trust signals, and CTA.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">02</span>
+        <span class="mech-text"><strong>1 Product Info Accordion Section</strong> — extended information without interrupting the decision flow.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">03</span>
+        <span class="mech-text"><strong>1 Reviews Slot Section</strong> — configurable social proof layer, compatible with major Shopify review apps.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">04</span>
+        <span class="mech-text"><strong>Sale Mode Layer (Level 1 included)</strong> — discount badge + compare price logic, active on every variant change.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">05</span>
+        <span class="mech-text"><strong>Tokenized spacing + layout system</strong> — every structural relationship controlled, not guessed.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">06</span>
+        <span class="mech-text"><strong>Documentation (PDF or Notion)</strong> — setup guide, configuration reference, annotated screenshots.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">07</span>
+        <span class="mech-text"><strong>Installation walkthrough</strong> — step-by-step deployment for Dawn family and most OS 2.0 themes.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">08</span>
+        <span class="mech-text"><strong>Future structural updates (when released)</strong> — delivered via Gumroad when architecture improvements ship.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MECHANISM SUMMARY — compression layer before the 11 cards -->
+<section id="mechanism">
+  <div class="container">
+    <div class="mech-label">How it works — three structural changes</div>
+    <div class="mech-rows reveal">
+      <div class="mech-row">
+        <span class="mech-num">01</span>
+        <span class="mech-text"><strong>Stabilize the purchase frame.</strong> No layout shift on variant change — CTA, price, and trust signals stay locked in position throughout selection.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">02</span>
+        <span class="mech-text"><strong>Keep the offer legible.</strong> Price, compare price, and discount badge recalculate live under every variant — evaluation stays anchored to the actual deal.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">03</span>
+        <span class="mech-text"><strong>Resolve doubt at the commitment point.</strong> Trust signals placed directly in the purchase frame — between description and CTA, where hesitation forms.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section id="before-after">
+  <div class="container">
+    <div class="section-num">04 — What Changes</div>
+    <h2 class="reveal">The same buyer.<br>A different sequence.</h2>
+    <div class="ba-grid reveal">
+      <div class="ba-col before">
+        <div class="ba-col-label before">Without this system</div>
+        <div class="ba-flow">
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Variant change resets the decision frame</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Buyer rescans — price logic unclear</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>CTA scrolls out of view mid-evaluation</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Trust signals unreachable — doubt grows</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Intent cools — session ends without action</span></div>
+        </div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-col-label after">With this system</div>
+        <div class="ba-flow">
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Variant change refines selection — frame stays stable</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Offer stays legible — price recalculates in place</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Floating bar re-surfaces CTA when it exits view</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Trust signals are present at the commitment point</span></div>
+          <div class="ba-step"><span class="ba-arrow">→</span><span>Readiness converts — action stays accessible</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-num">05 — Architecture Breakdown</div>
+    <h2 class="reveal">The 11 Controlled Decision Points.</h2>
+    <p class="reveal" style="color:var(--white-dim);font-size:16px;font-weight:300;line-height:1.7;margin-bottom:20px;">Each layer controls a specific failure point in evaluation — so intent can reach checkout without resetting.</p>
+    <div class="arch-cards">
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 01</div>
+        <div class="arch-content">
+          <div class="arch-title">Hero Decision Frame</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Buyers scan for price logic, value, and next step — and often don't find them fast enough.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Title, price, short description, and trust signals compressed into one unified frame — above the fold.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Evaluation begins with clarity → buyers move forward instead of scanning and leaving.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 02</div>
+        <div class="arch-content">
+          <div class="arch-title">Live Pricing Under Variants</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Variant change forces the buyer to re-interpret the deal — compare price and discount clarity break.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Price, compare price, and discount badge all recalculate live — within the same frame.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Offer stays legible — evaluation stays anchored, protecting checkout initiation.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 03</div>
+        <div class="arch-content">
+          <div class="arch-title">Variant Synchronization</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Variant change shifts the decision frame — CTA and trust signals move, triggering a decision reset.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Price block, trust anchor, and CTA stay locked in position. No layout shift.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Selection feels like refinement → intent continues without interruption.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 04</div>
+        <div class="arch-content">
+          <div class="arch-title">Color Swatch Intelligence</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Color options as text buttons require mental translation — buyer has to imagine the color.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Color variants render as swatches automatically — no manual image setup required.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Visual selection is instant → variant evaluation is faster and more confident.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 05</div>
+        <div class="arch-content">
+          <div class="arch-title">Trust Signals at the Commitment Point</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Shipping, returns, and payment safety are buried in the footer — buyer leaves the decision zone to find reassurance.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Up to 3 trust points embedded directly in the purchase frame — between description and CTA.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Doubt resolved before it forms → commitment proceeds without hesitation at the highest-risk moment.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 06</div>
+        <div class="arch-content">
+          <div class="arch-title">Quantity-Gated CTA State</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Invalid quantity inputs create friction at commitment — buyers hit errors after trying to act.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Quantity controlled with constraints and real-time validation. CTA reflects actual availability.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Buyers aren't punished at commitment — invalid intent is blocked before it becomes a reset.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 07</div>
+        <div class="arch-content">
+          <div class="arch-title">Floating Purchase Layer</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Buyer scrolls past the CTA — intent remains but the action disappears from view.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Floating bar activates when CTA exits view — re-surfacing image, variant, price, and action.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Readiness converts immediately — intent doesn't cool off mid-scroll.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 08</div>
+        <div class="arch-content">
+          <div class="arch-title">Buy Now Path</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Ready buyers are forced through the cart — an extra step that introduces friction at peak intent.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Fast-checkout path (dynamic checkout) next to ATC — when supported by payment setup.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">High-intent buyers convert faster → no unnecessary friction at peak commitment.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 09</div>
+        <div class="arch-content">
+          <div class="arch-title">Media Consistency Across Devices</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Image ratios shift between desktop and mobile — visual uncertainty undermines confidence.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Media ratio and fit controlled structurally — consistent gallery on every device.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Visual evaluation feels stable → reduces mobile drop-off caused by inconsistent imagery.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 10</div>
+        <div class="arch-content">
+          <div class="arch-title">Accordion Information Layer</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Long descriptions inline create visual clutter — buyers get lost in content instead of moving toward commitment.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Extended information in a clean accordion below the hero — up to 3 sections, expanding on demand.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Information available without interrupting decision flow → detail-seekers served without blocking others.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-card reveal">
+        <div class="arch-num">Layer 11</div>
+        <div class="arch-content">
+          <div class="arch-title">Reviews Integration Layer</div>
+          <div class="arch-rows">
+            <div class="arch-row"><span class="arch-row-label problem">Problem</span><span class="arch-row-text problem-text">Social proof placed too late arrives after the buyer has already decided to leave.</span></div>
+            <div class="arch-row"><span class="arch-row-label">Intervention</span><span class="arch-row-text">Configurable reviews section — supports Shopify review apps and third-party embeds.</span></div>
+            <div class="arch-row"><span class="arch-row-label outcome">Outcome</span><span class="arch-row-text outcome-text">Trust builds at the right moment in the evaluation sequence — not after it ends.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="container">
+    <div class="section-num">06 — Live Demo</div>
+    <h2 class="reveal">See the structure<br>before you decide.</h2>
+    <div class="demo-frame reveal">
+      <div class="demo-proof">
+        <div class="demo-proof-item">
+          <img loading="lazy" decoding="async" src="https://demo-astriva.myshopify.com/cdn/shop/files/1_3aeb7eb4-0c55-49f1-8f5d-17c39238f588.jpg?v=1771538186&width=600" alt="Hero frame — price, trust signals, CTA above the fold">
+          <div class="demo-proof-label">Hero Decision Frame</div>
+        </div>
+        <div class="demo-proof-item">
+          <img loading="lazy" decoding="async" src="https://demo-astriva.myshopify.com/cdn/shop/files/2_2674fc63-4c23-4a12-a274-c25242172182.jpg?v=1771538186&width=600" alt="Variant pricing sync in action">
+          <div class="demo-proof-label">Variant Pricing Sync</div>
+        </div>
+        <div class="demo-proof-item">
+          <img loading="lazy" decoding="async" src="https://demo-astriva.myshopify.com/cdn/shop/files/5_0e15dc1b-cde9-4313-8fee-eb3ac8aaa140.jpg?v=1771541889&width=600" alt="Floating purchase layer re-surfacing CTA">
+          <div class="demo-proof-label">Floating Purchase Layer</div>
+        </div>
+      </div>
+      <p class="demo-proof-note">You'll see live pricing sync, the fixed CTA frame, and the floating purchase layer — in one flow.</p>
+      <p class="demo-description">The live demo is the <strong>full page</strong> — not a screenshot, not a mockup. See every structural decision in context: how the hero frame is built, where trust signals are placed, how variant selection behaves, where the CTA lives and why.</p>
+      <p class="demo-description">If you've watched the videos — <strong>you already know what to look for.</strong></p>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--white-faint);letter-spacing:0.06em;margin-bottom:28px;">This is not a mockup. This is the actual structural build.</p>
+      <a href="#" class="btn-primary" id="demo-link-main" target="_blank" rel="noopener noreferrer">Open Live Demo →</a>
+      <span class="demo-new-tab-note">Opens in new tab</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="who">
+  <div class="container">
+    <div class="section-num">07 — Built For</div>
+    <h2 class="reveal">One specific situation.</h2>
+    <div class="fit-grid reveal">
+      <div class="fit-col">
+        <div class="fit-col-label yes">Right fit</div>
+        <div class="fit-item"><span class="fit-dot yes"></span><span>Consistent traffic — organic or paid</span></div>
+        <div class="fit-item"><span class="fit-dot yes"></span><span>Running paid ads regularly</span></div>
+        <div class="fit-item"><span class="fit-dot yes"></span><span>Add-to-carts happening — but checkout fluctuates</span></div>
+        <div class="fit-item"><span class="fit-dot yes"></span><span>No in-house CRO or UX team</span></div>
+        <div class="fit-item"><span class="fit-dot yes"></span><span>Page looks fine — conversion isn't stable</span></div>
+      </div>
+      <div class="fit-col">
+        <div class="fit-col-label no">Not the right fit</div>
+        <div class="fit-item"><span class="fit-dot no"></span><span>Still testing product-market fit</span></div>
+        <div class="fit-item"><span class="fit-dot no"></span><span>No consistent traffic yet</span></div>
+        <div class="fit-item"><span class="fit-dot no"></span><span>Looking for a design upgrade only</span></div>
+      </div>
+    </div>
+    <p class="fit-statement reveal">If your product is validated and traffic is flowing — structure is the leverage point.</p>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section id="objections">
+  <div class="container">
+    <div class="section-num">08 — Common Questions</div>
+    <h2 class="reveal">Addressed directly.</h2>
+    <div class="obj-list reveal">
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-1">
+          <span>"Will this work with my theme and apps?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-1" role="region">This is built as OS 2.0 sections and doesn't replace your theme. It works with most themes and common apps (reviews, subscriptions, bundles). If your theme has heavy custom product logic, you may need minor styling adjustments — and that's covered during the 14-day installation support.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-2">
+          <span>"Will this break my existing store?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-2" role="region">This is a product page layer — not a theme replacement. It doesn't touch your checkout, payment logic, or app integrations. You're restructuring the decision environment — not your store's infrastructure.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-3">
+          <span>"Do I need coding skills?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-3" role="region">No. The system deploys through controlled section logic and configurable settings. If you can manage a Shopify theme section, you can implement this.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-4">
+          <span>"What if my conversion rate doesn't improve?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-4" role="region">This system addresses one specific failure point: the evaluation phase on your product page. If traffic is arriving and add-to-carts are happening but checkout completion is inconsistent — that's exactly what this is built to fix. It won't create demand. It removes the structural friction that's preventing existing intent from completing.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-5">
+          <span>"Isn't good design enough?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-5" role="region">Clean design improves perception. It doesn't control decision sequencing. A visually organized page can still lose momentum at variant changes, pricing shifts, and commitment points. Structure operates beneath appearance.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-6">
+          <span>"Maybe I just need better ads."</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-6" role="region">Ads control acquisition. They don't control what happens after the click. If add-to-carts are occurring but checkout completion fluctuates — the leak is in the evaluation layer, not the ad. Improving ads without fixing structure increases traffic into the same bottleneck.</div>
+      </div>
+
+      <div class="obj-item">
+        <button class="obj-question" aria-expanded="false" aria-controls="faq-7">
+          <span>"Can't I just tweak what I have?"</span>
+          <span class="obj-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="obj-answer" id="faq-7" role="region">Surface edits adjust appearance. They don't redesign decision sequencing. When friction is structural, incremental changes rarely resolve it. This is a framework — not another patch.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME PROJECTION -->
+<section id="outcome" style="padding:72px 0;border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="mech-label">What changes after implementation</div>
+    <div class="mech-rows reveal">
+      <div class="mech-row">
+        <span class="mech-num">→</span>
+        <span class="mech-text">Evaluation stabilizes — buyers move through selection without resetting.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">→</span>
+        <span class="mech-text">Variant shifts don't reset intent — the decision frame stays anchored.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">→</span>
+        <span class="mech-text">Action remains accessible — CTA is always within reach, regardless of scroll position.</span>
+      </div>
+      <div class="mech-row">
+        <span class="mech-num">→</span>
+        <span class="mech-text">Checkout completion increases — existing intent finally has a clear path to convert.</span>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--white-faint);margin-top:24px;letter-spacing:0.06em;">Not conversion promises. Structural behavioral outcomes.</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-num">09 — Pricing</div>
+    <h2 class="reveal">One-time.<br>No subscription.</h2>
+    <p class="brand-def reveal" style="margin-bottom:32px;">Decision-Flow is a controlled evaluation system for Shopify product pages.</p>
+    <div class="price-block reveal">
+      <div class="price-badge">Early Release</div>
+      <div class="price-display">
+        <span class="price-current">$49</span>
+        <span class="price-original">$69</span>
+      </div>
+      <div class="price-sub">One-time payment · No recurring fees · No upsells</div>
+      <p class="price-context">Most Shopify stores lose more than $49 in abandoned checkout every single day.</p>
+      <div class="price-threshold">Price increases to $69 after the first 25 buyers.</div>
+
+      <div class="impl-reality">
+        <div class="impl-reality-header">Implementation reality</div>
+        <div class="impl-reality-rows">
+          <div class="impl-reality-row">
+            <span class="impl-reality-key">Install time</span>
+            <span class="impl-reality-val">10–20 minutes (typical OS 2.0 themes)</span>
+          </div>
+          <div class="impl-reality-row">
+            <span class="impl-reality-key">Works best with</span>
+            <span class="impl-reality-val">Dawn family + most OS 2.0 themes</span>
+          </div>
+          <div class="impl-reality-row">
+            <span class="impl-reality-key">Heavy customization</span>
+            <span class="impl-reality-val">Minor styling adjustments may be needed — covered in the 14-day installation support</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#pricing" class="btn-primary" style="font-size:13px;padding:18px 40px;">Get Decision-Flow — $49 →</a>
+
+      <div class="after-purchase">
+        <div class="after-item guarantee">Installation Confidence Guarantee — if you cannot install it properly, you get your money back.</div>
+        <div class="after-item guarantee-constraint">If your theme has heavy custom product logic, support covers styling + integration guidance, not full rewrites.</div>
+        <div class="after-item">Instant access to template files and setup documentation — delivered via Gumroad</div>
+        <div class="after-item">Compatible with Shopify OS 2.0 themes (Dawn family + most third-party OS 2.0)</div>
+        <div class="after-item no-refund">Refunds aren't available after files are delivered (instant digital access) — except for installation failure covered by the Installation Confidence Guarantee.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CLOSE -->
+<section id="close">
+  <div class="container">
+    <p class="close-statement reveal">Traffic isn't<br>the constraint.<br><em>The page is.</em></p>
+    <p class="close-sub reveal">The evaluation phase is where the decision breaks — and that's exactly what this system is built to fix.</p>
+    <div class="reveal" style="font-family:var(--mono);font-size:12px;color:var(--white-faint);letter-spacing:0.06em;line-height:2;margin-bottom:40px;">
+      Not a redesign.<br>
+      Not a theme.<br>
+      A controlled evaluation system.
+    </div>
+    <p class="reveal" style="font-family:var(--display);font-size:18px;font-style:italic;color:var(--white-dim);margin-bottom:24px;">Restructure your product page — and give existing intent a path to complete.</p>
+    <a href="#pricing" class="btn-primary reveal" style="font-size:13px;padding:18px 40px;">Get Decision-Flow — $49 →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="container">
+  <footer>
+    <div class="footer-brand">
+      <span class="footer-brand-name">Astriva</span>
+      <span class="footer-brand-sep">—</span>
+      <span class="footer-brand-sub">Decision-Flow</span>
+    </div>
+    <span class="footer-mark">Built for conversion. Not decoration.</span>
+  </footer>
+</div>
+
+<script>
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+  });
+
+  // ── FAQ accordion — button + aria ──
+  document.querySelectorAll('.obj-item').forEach(item => {
+    const btn    = item.querySelector('.obj-question');
+    const answer = item.querySelector('.obj-answer');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.obj-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.obj-question').setAttribute('aria-expanded', 'false');
+      });
+      // Open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ── Demo links — set URL + open new tab ──
+  const DEMO_URL = 'DEMO_URL'; // ← paste demo URL here
+  ['demo-link-hero', 'demo-link-main'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.href = DEMO_URL;
+      el.target = '_blank';
+      el.rel = 'noopener noreferrer';
+    }
+  });
+
+  // ── Safety guard — warn if placeholder URLs not replaced ──
+  if (DEMO_URL === 'DEMO_URL') {
+    console.warn('[Decision-Flow] DEMO_URL is not set — update before going live.');
+  }
+  if (document.querySelector('a[href="#pricing"]')) {
+    document.querySelectorAll('a[href="#pricing"]').forEach(a => {
+      console.warn('[Decision-Flow] GUMROAD_URL is not set on element:', a);
+    });
+  }
+</script>
+
+</body>
+</html>
