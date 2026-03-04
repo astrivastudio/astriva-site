@@ -7,7 +7,8 @@
 <meta name="description" content="Decision-Flow is a controlled evaluation system for Shopify product pages — built to stabilize variant selection, clarify pricing, and keep the purchase action accessible." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   /* ── RESET ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,7 +26,7 @@
     --red:         #c8392b;
     --red-hover:   #e04535;
     --mono:        'IBM Plex Mono', monospace;
-    --display:     'Playfair Display', serif;
+--display:     'Satoshi', sans-serif;
     --body:        'DM Sans', sans-serif;
   }
 
@@ -163,13 +164,12 @@
     font-family: var(--display);
     font-size: clamp(48px, 8vw, 88px);
     font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -0.02em;
+line-height: 1.1;
+letter-spacing: -0.04em;
     margin-bottom: 32px;
   }
 
-  h1 em { font-style: italic; color: var(--white-dim); }
-
+h1 em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing: -0.04em; }
   .hero-sub {
     font-size: 18px;
     line-height: 1.65;
@@ -266,7 +266,7 @@
   h2 {
     font-family: var(--display);
     font-size: clamp(32px, 5vw, 52px);
-    font-weight: 700;
+    font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin-bottom: 32px;
@@ -335,7 +335,7 @@
   .cost-statement {
     font-family: var(--display);
     font-size: clamp(20px, 3vw, 28px);
-    font-style: italic;
+font-style: normal;
     line-height: 1.4;
     color: var(--white);
     margin-top: 40px;
@@ -801,7 +801,7 @@
   .fit-statement {
     font-family: var(--display);
     font-size: 18px;
-    font-style: italic;
+font-style: normal;
     color: var(--white);
     margin-top: 40px;
     line-height: 1.5;
@@ -936,7 +936,7 @@
   .price-context {
     font-size: 14px;
     color: var(--white-dim);
-    font-style: italic;
+font-style: normal;
     margin-bottom: 40px;
     line-height: 1.6;
   }
@@ -1050,7 +1050,7 @@
     margin-bottom: 16px;
   }
 
-  .close-statement em { font-style: italic; color: var(--white-dim); }
+.close-statement em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing: -0.04em; }
 
   .close-sub {
     font-size: 17px;
@@ -1676,7 +1676,6 @@
       </div>
       <div class="price-sub">One-time payment · No recurring fees · No upsells</div>
       <p class="price-context">Most Shopify stores lose more than $49 in abandoned checkout every single day.</p>
-      <div class="price-threshold">Price increases to $69 after the first 25 buyers.</div>
 
       <div class="impl-reality">
         <div class="impl-reality-header">Implementation reality</div>
@@ -1719,7 +1718,7 @@
       Not a theme.<br>
       A controlled evaluation system.
     </div>
-    <p class="reveal" style="font-family:var(--display);font-size:18px;font-style:italic;color:var(--white-dim);margin-bottom:24px;">Restructure your product page — and give existing intent a path to complete.</p>
+    <p class="reveal" style="font-family:var(--display);font-size:18px;font-style:normal;color:var(--white-dim);margin-bottom:24px;">Restructure your product page — and give existing intent a path to complete.</p>
     <a href="#pricing" class="btn-primary reveal" style="font-size:13px;padding:18px 40px;">Get Decision-Flow — $49 →</a>
   </div>
 </section>
