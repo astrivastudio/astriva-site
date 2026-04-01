@@ -7,8 +7,7 @@
 <meta name="description" content="Decision-Flow is a controlled evaluation system for Shopify product pages — built to stabilize variant selection, clarify pricing, and keep the purchase action accessible." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   /* ── RESET ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +25,7 @@
     --red:         #c8392b;
     --red-hover:   #e04535;
     --mono:        'IBM Plex Mono', monospace;
---display:     'Satoshi', sans-serif;
+--display:     'Playfair Display', serif;
     --body:        'DM Sans', sans-serif;
   }
 
@@ -164,12 +163,12 @@
     font-family: var(--display);
     font-size: clamp(48px, 8vw, 88px);
     font-weight: 900;
-line-height: 1.1;
-letter-spacing: -0.04em;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
     margin-bottom: 32px;
   }
 
-h1 em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing: -0.04em; }
+h1 em { font-style: italic; color: var(--white-dim); }
   .hero-sub {
     font-size: 18px;
     line-height: 1.65;
@@ -266,7 +265,7 @@ h1 em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing:
   h2 {
     font-family: var(--display);
     font-size: clamp(32px, 5vw, 52px);
-    font-weight: 900;
+    font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin-bottom: 32px;
@@ -335,7 +334,7 @@ h1 em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing:
   .cost-statement {
     font-family: var(--display);
     font-size: clamp(20px, 3vw, 28px);
-font-style: normal;
+    font-style: italic;
     line-height: 1.4;
     color: var(--white);
     margin-top: 40px;
@@ -1050,7 +1049,7 @@ font-style: normal;
     margin-bottom: 16px;
   }
 
-.close-statement em { font-style: normal; font-weight: 900; color: var(--red); letter-spacing: -0.04em; }
+.close-statement em { font-style: italic; color: var(--white-dim); }
 
   .close-sub {
     font-size: 17px;
