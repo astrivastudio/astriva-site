@@ -1,826 +1,904 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astriva — Structural Systems for Shopify Growth</title>
-<meta name="description" content="Astriva builds controlled evaluation systems for Shopify stores — not themes, not redesigns. Structural optimization that turns traffic into completed decisions." />
-<link rel="canonical" href="https://astriva.co/" />
+<title>astriva · decision systems for Shopify stores</title>
+<meta name="description" content="astriva builds decision systems for Shopify stores — installable systems shaped around where buying intent breaks down before purchase.">
 
-<!-- Open Graph -->
-<meta property="og:type"        content="website" />
-<meta property="og:url"         content="https://astriva.co/" />
-<meta property="og:title"       content="Astriva — Structural Systems for Shopify Growth" />
-<meta property="og:description" content="Controlled evaluation systems for Shopify stores. Not themes. Not redesigns. Structure that turns traffic into completed decisions." />
-<meta property="og:image"       content="https://astriva.co/og-image.jpg" />
+<link rel="canonical" href="https://astriva.co/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://astriva.co/">
+<meta property="og:title" content="astriva · decision systems for Shopify stores">
+<meta property="og:description" content="Most stores are built to be seen. astriva builds them to decide.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="astriva · decision systems for Shopify stores">
+<meta name="twitter:description" content="Most stores are built to be seen. astriva builds them to decide.">
 
-<!-- Twitter -->
-<meta name="twitter:card"        content="summary_large_image" />
-<meta name="twitter:title"       content="Astriva — Structural Systems for Shopify Growth" />
-<meta name="twitter:description" content="Controlled evaluation systems for Shopify stores. Not themes. Not redesigns." />
-<meta name="twitter:image"       content="https://astriva.co/og-image.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+
 <style>
-  /* ── RESET ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ============================================================
+   astriva — homepage v6  (COPY TIGHTENING PASS)
+   ----------------------------------------------------------------
+   v3 was strategically right but visually flat: one register, even
+   calm, no force curve. v4 keeps every strategic decision and adds
+   HIERARCHY + TENSION + a real brand moment — through composition,
+   type scale, contrast and density. No new diagrams. No proof objects.
+   FORCE CURVE:  hero(high) reframe(valley) field(PEAK) lens(sharp)
+                 system(solid) close(high).
+   KEEPS:  pressure-based territory · diagnostic authority · DNA ·
+           one dark contrast event · scarce signal #ec6a40 ·
+           altitude over Decision-Flow.
+   ============================================================ */
+:root{
+  --ground:#F7F6F3;
+  --surface:#FFFFFF;
+  --surface-2:#EEEBE6;
+  --surface-3:#E3DED7;
 
-  /* ── TOKENS ── */
-  :root {
-    --black:         #141414;
-  --off-black:     #1e1e1e;
-  --dark:          #282828;
-  --mid:           #383838;
+  --ink:#15161A;
+  --ink-2:#56524C;
+  --ink-3:#969089;
 
-  --border:        #323232;
-  --border-strong: #3c3c3c;
+  --line:#E0DCD5;
+  --line-2:#CBC4BA;
 
-  --white:         #ffffff;
-  --white-dim:     rgba(255,255,255,0.62);
-  --white-faint:   rgba(255,255,255,0.28);
+  --dark:#121211;
+  --dark-2:#1a1a19;
+  --dark-3:#242422;
+  --dark-ink:#ffffff;
+  --dark-ink-2:#c8c5be;
+  --dark-ink-3:#8a857d;
+  --dark-line:#2c2c2a;
+  --dark-line-2:#3c3c39;
 
-  --red:           #ec6a40;
-  --red-hover:     #f07a52;
+  --signal:#ec6a40;
+  --signal-hot:#f47a4e;
+  --signal-ghost:rgba(236,106,64,.10);
 
-    --mono:        'IBM Plex Mono', monospace;
---display:     'Playfair Display', serif;
-    --body:        'DM Sans', sans-serif;
-  }
+  --ease-soft:cubic-bezier(.22,.61,.36,1);
+  --ease-settle:cubic-bezier(.16,1,.3,1);
+  --ease-power:cubic-bezier(.5,0,.1,1);
 
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: var(--body);
-    font-size: 16px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  /* noise texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* ── LAYOUT ── */
-  .container {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 32px;
-    position: relative;
-    z-index: 1;
-  }
-
-  section { position: relative; }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(20,20,20,0.9);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: baseline;
-    gap: 0;
-    text-decoration: none;
-  }
-
-  .nav-brand-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  .nav-brand-sep {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--white-faint);
-    margin: 0 8px;
-  }
-
-  .nav-brand-sub {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white-faint);
-  }
-
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .nav-link {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white-dim);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-link:hover { color: var(--white); }
-
-  .nav-cta {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white);
-    text-decoration: none;
-    padding: 9px 20px;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: all 0.2s;
-  }
-
-  .nav-cta:hover { background: var(--white); color: var(--black); }
-
-  /* ── BUTTONS ── */
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--red);
-    color: #fff;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 16px 32px;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.1);
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-  }
-
-  .btn-primary:hover::after { transform: translateX(0); }
-  .btn-primary:hover { background: var(--red-hover); transform: translateY(-1px); }
-
-  .btn-ghost {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white-dim);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 2px;
-    transition: all 0.2s;
-  }
-
-  .btn-ghost:hover { color: var(--white); border-color: var(--white-dim); }
-
-  /* ── SECTION COMMON ── */
-  .section-num {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--white-faint);
-    margin-bottom: 16px;
-  }
-
-  h1 {
-    font-family: var(--display);
-    font-size: clamp(48px, 8vw, 88px);
-    font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
-  }
-
-  h1 em { font-style: italic; color: var(--white-dim); }
-  h2 {
-    font-family: var(--display);
-    font-size: clamp(30px, 4.5vw, 48px);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
-  }
-
-  h2 em { font-style: italic; color: var(--white-dim); }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-
-  /* ── §1 HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 140px 0 100px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .hero-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--white-dim);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .hero-label::before {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 1px;
-    background: var(--white-faint);
-    flex-shrink: 0;
-  }
-
-  .hero-sub {
-    font-size: 18px;
-    line-height: 1.65;
-    color: var(--white-dim);
-    max-width: 500px;
-    margin-bottom: 40px;
-    font-weight: 300;
-  }
-
-  .cta-group {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  /* ── §2 PHILOSOPHY ── */
-  #philosophy {
-    padding: 100px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .philosophy-body {
-    max-width: 600px;
-    margin-top: 8px;
-  }
-
-  .philosophy-body p {
-    font-size: 18px;
-    line-height: 1.75;
-    color: var(--white-dim);
-    font-weight: 300;
-    margin-bottom: 20px;
-  }
-
-  .philosophy-body p:last-child { margin-bottom: 0; }
-  .philosophy-body strong { color: var(--white); font-weight: 500; }
-
-  .philosophy-axiom {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: var(--white-faint);
-    border-left: 2px solid var(--white-faint);
-    padding: 14px 18px;
-    margin-top: 32px;
-    line-height: 1.65;
-  }
-
-  /* ── §3 SYSTEMS CATALOG ── */
-  #systems {
-    padding: 100px 0;
-    border-bottom: 1px solid var(--border);
-    background: var(--off-black);
-  }
-
-  .catalog-category {
-    margin-bottom: 48px;
-  }
-
-  .catalog-category:last-child { margin-bottom: 0; }
-
-  .catalog-category-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--white-faint);
-    margin-bottom: 1px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .catalog-category-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .catalog-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--border);
-  }
-
-  .catalog-row {
-    background: var(--off-black);
-    padding: 24px 28px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.2s;
-  }
-
-  .catalog-row:not(.catalog-row--inactive):hover { background: var(--dark); }
-
-  .catalog-row--inactive { cursor: default; }
-
-  .catalog-row-left { display: flex; flex-direction: column; gap: 4px; }
-
-  .catalog-row-name {
-    font-family: var(--display);
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--white);
-    line-height: 1.1;
-  }
-
-  .catalog-row--inactive .catalog-row-name { color: var(--white-dim); }
-
-  .catalog-row-desc {
-    font-size: 13px;
-    color: var(--white-faint);
-    font-weight: 300;
-    line-height: 1.5;
-    font-family: var(--mono);
-    letter-spacing: 0.02em;
-  }
-
-  .catalog-row-status {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    padding: 4px 10px;
-    border: 1px solid;
-    align-self: center;
-  }
-
-  .catalog-row-status.available {
-    color: var(--red);
-    border-color: rgba(236,106,64,0.40);
-  }
-
-  .catalog-row-status.in-dev {
-    color: var(--white-faint);
-    border-color: var(--border);
-  }
-
-.catalog-row-status.later {
-  color: rgba(255,255,255,0.22);
-  border-color: rgba(255,255,255,0.06);
+  --measure:680px;
 }
-  /* ── §4 PERSPECTIVE ── */
-  #perspective {
-    padding: 100px 0;
-    border-bottom: 1px solid var(--border);
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter Tight',system-ui,sans-serif;background:var(--ground);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;letter-spacing:-0.006em;overflow-x:hidden;}
 
-  .perspective-statement {
-    font-family: var(--display);
-    font-size: clamp(22px, 3.5vw, 36px);
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1.4;
-    color: var(--white);
-    margin-bottom: 32px;
-    max-width: 580px;
-    border-left: 2px solid var(--red);
-    padding-left: 24px;
-  }
+.wrap{max-width:1160px;margin:0 auto;padding:0 44px;}
+.col{max-width:var(--measure);}
 
-  .perspective-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--border);
-    margin-top: 40px;
-  }
+/* section index marker — anchors the eye, builds the argument structure */
+.sec-mark{display:flex;align-items:center;gap:14px;margin-bottom:30px;}
+.sec-mark .ix{font-family:'JetBrains Mono';font-weight:600;font-size:12px;color:var(--signal);letter-spacing:.04em;}
+.sec-mark .ix.on-dark{color:var(--signal-hot);}
+.sec-mark .lbl{font-family:'JetBrains Mono';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);}
+.sec-mark .lbl.on-dark{color:var(--dark-ink-3);}
+.sec-mark .rule{flex:1;height:1px;background:var(--line);}
+.sec-mark .rule.on-dark{background:var(--dark-line);}
 
-  .perspective-line {
-    background: var(--black);
-    padding: 16px 24px;
-    display: grid;
-    grid-template-columns: 20px 1fr;
-    gap: 18px;
-    align-items: start;
-    font-size: 15px;
-    color: var(--white-dim);
-    line-height: 1.6;
-    font-weight: 300;
-  }
+.eyebrow{font-family:'JetBrains Mono';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:10px;}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--signal);flex-shrink:0;}
 
-  .perspective-line-dot {
-    width: 5px; height: 5px;
-    background: var(--white-faint);
-    border-radius: 50%;
-    margin-top: 8px;
-    flex-shrink: 0;
-  }
+.btn-primary{position:relative;display:inline-flex;align-items:center;gap:9px;background:var(--signal);color:#fff;font-family:'Inter Tight';font-weight:600;font-size:15px;padding:15px 26px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;letter-spacing:-0.01em;transition:background .18s ease,transform .18s ease,box-shadow .24s ease;}
+.btn-primary:hover{background:var(--signal-hot);transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(236,106,64,.55);}
+.btn-primary:active{transform:translateY(0);}
+.btn-primary span[aria-hidden]{transition:transform .22s var(--ease-soft);display:inline-block;}
+.btn-primary:hover span[aria-hidden]{transform:translateX(3px);}
+.btn-line{display:inline-flex;align-items:center;gap:9px;background:none;color:var(--ink);font-family:'Inter Tight';font-weight:600;font-size:15px;padding:15px 24px;border-radius:8px;border:1px solid var(--line-2);cursor:pointer;text-decoration:none;letter-spacing:-0.01em;transition:border-color .18s,background .18s,transform .18s;}
+.btn-line:hover{border-color:var(--ink);background:var(--surface);transform:translateY(-1px);}
+.btn-line span[aria-hidden]{transition:transform .22s var(--ease-soft);display:inline-block;}
+.btn-line:hover span[aria-hidden]{transform:translateY(2px);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2);font-weight:500;font-size:15px;text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .18s,border-color .18s;}
+.btn-ghost:hover{color:var(--ink);border-color:var(--line-2);}
+.btn-ghost span[aria-hidden]{transition:transform .22s var(--ease-soft);display:inline-block;}
+.btn-ghost:hover span[aria-hidden]{transform:translateX(3px);}
+.btn-ghost.on-dark{color:var(--dark-ink-2);}
+.btn-ghost.on-dark:hover{color:var(--dark-ink);border-color:var(--dark-line-2);}
 
-  /* ── §5 CONTENT BRIDGE ── */
-  #content {
-    padding: 100px 0;
-    border-bottom: 1px solid var(--border);
-    background: var(--off-black);
-  }
+.rv{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease-soft),transform .85s var(--ease-settle);}
+.in .rv{opacity:1;transform:none;}
+.in .rv.s1{transition-delay:.08s;}
+.in .rv.s2{transition-delay:.17s;}
+.in .rv.s3{transition-delay:.26s;}
+.in .rv.s4{transition-delay:.35s;}
+.in .rv.s5{transition-delay:.44s;}
+.mt-lg{margin-top:32px;}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important;}}
 
-  .content-bridge {
-    margin-top: 40px;
-    border: 1px solid var(--border);
-    padding: 40px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 32px;
-    align-items: center;
-  }
+/* ============== NAV ============== */
+.nav{position:sticky;top:0;z-index:50;background:rgba(247,246,243,.82);backdrop-filter:saturate(150%) blur(16px);border-bottom:1px solid var(--line);}
+.nav-inner{display:flex;align-items:center;gap:12px;padding:17px 44px;max-width:1160px;margin:0 auto;}
+.nav .brand{font-family:'JetBrains Mono';font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-0.02em;}
+.nav .tag{font-family:'JetBrains Mono';font-weight:500;font-size:11px;color:var(--ink-3);letter-spacing:.02em;border-left:1px solid var(--line-2);padding-left:12px;}
+.nav-right{margin-left:auto;display:inline-flex;align-items:center;gap:26px;}
+.nav-link{font-family:'Inter Tight';font-weight:500;font-size:13.5px;color:var(--ink-2);text-decoration:none;transition:color .18s;}
+.nav-link:hover{color:var(--ink);}
+.nav-cta{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;font-weight:500;font-size:13px;padding:9px 16px;border-radius:7px;text-decoration:none;transition:background .18s ease,transform .18s;}
+.nav-cta:hover{background:#000;transform:translateY(-1px);}
+@media(max-width:820px){.nav-link{display:none;}.nav .tag{display:none;}}
 
-  .content-bridge-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--white-faint);
-    margin-bottom: 12px;
-  }
+/* ============================================================
+   1 · HERO — comfortable composition + tightened brand copy.
+   Keeps the older, calmer visual balance: controlled headline scale,
+   compact diagnostic card, and orientation-first CTAs.
+   ============================================================ */
+.hero{position:relative;padding:120px 0 116px;overflow:hidden;}
+.hero-atmos{position:absolute;inset:0;z-index:0;pointer-events:none;}
+.hero-atmos .glow{position:absolute;left:-10%;right:-10%;bottom:-30%;height:95%;
+  background:radial-gradient(55% 100% at 26% 100%,rgba(236,106,64,.07),transparent 70%),
+             radial-gradient(70% 100% at 82% 100%,rgba(21,22,26,.05),transparent 72%);
+  filter:blur(2px);animation:atmosDrift 26s ease-in-out infinite alternate;}
+.hero-atmos .vline{display:none;}
+@keyframes atmosDrift{from{transform:translate3d(0,0,0) scale(1);}to{transform:translate3d(-2%,-1.5%,0) scale(1.04);}}
+@media(prefers-reduced-motion:reduce){.hero-atmos .glow{animation:none;}}
 
-  .content-bridge-title {
-    font-family: var(--display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 10px;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-  }
+.hero .wrap{position:relative;z-index:1;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:72px;align-items:center;}
+.hero-eyebrow{margin-bottom:34px;opacity:0;transform:translateY(16px);animation:rise .9s var(--ease-settle) .1s forwards;}
+.hero-h1{font-family:'Playfair Display';font-weight:600;font-size:74px;line-height:1.0;letter-spacing:-0.027em;max-width:15ch;color:var(--ink);
+  opacity:0;transform:translateY(20px);animation:rise 1s var(--ease-settle) .24s forwards;}
+.hero-h1 .turn{color:var(--signal);font-style:italic;font-weight:500;}
+.hero-lead{font-size:18.5px;color:var(--ink-2);line-height:1.64;max-width:48ch;margin-top:32px;
+  opacity:0;transform:translateY(18px);animation:rise 1s var(--ease-settle) .42s forwards;}
+.hero-lead b{color:var(--ink);font-weight:600;}
+.hero-cta-row{display:flex;align-items:center;gap:28px;margin-top:40px;flex-wrap:wrap;
+  opacity:0;transform:translateY(16px);animation:rise 1s var(--ease-settle) .6s forwards;}
+@keyframes rise{to{opacity:1;transform:none;}}
 
-  .content-bridge-desc {
-    font-size: 14px;
-    color: var(--white-dim);
-    font-weight: 300;
-    line-height: 1.6;
-  }
-
-  /* ── §6 FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-brand { display: flex; align-items: baseline; }
-
-  .footer-brand-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--white-dim);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .footer-brand-sep {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--white-faint);
-    margin: 0 8px;
-  }
-
-  .footer-brand-sub {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--white-faint);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .footer-mark {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--white-faint);
-    letter-spacing: 0.1em;
-  }
-
-.footer-links {
-  display: flex;
-  gap: 24px;
+/* diagnostic card — compact, supportive, not dominant */
+.hero-reg{opacity:0;transform:translateY(20px);animation:rise 1s var(--ease-settle) .78s forwards;}
+.reg-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px 24px 22px;box-shadow:0 24px 60px -46px rgba(20,20,26,.45);overflow:hidden;}
+.reg-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 0 18px;border-bottom:1px solid var(--line);}
+.reg-top .rt-l{font-family:'JetBrains Mono';font-weight:500;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:8px;}
+.reg-top .rt-l::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--signal);display:inline-block;flex-shrink:0;}
+.reg-top .rt-live{font-family:'JetBrains Mono';font-weight:500;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:7px;}
+.reg-top .rt-live .pulse{width:5px;height:5px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 rgba(236,106,64,.32);animation:pulse 3.4s ease-out infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(236,106,64,.32);}70%{box-shadow:0 0 0 5px rgba(236,106,64,0);}100%{box-shadow:0 0 0 0 rgba(236,106,64,0);}}
+.reg-body{padding:8px 0 0;}
+.reg-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);}
+.reg-row:last-child{border-bottom:none;}
+.reg-k{font-family:'Inter Tight';font-weight:500;font-size:14px;color:var(--ink);letter-spacing:-0.01em;}
+.reg-v{font-family:'JetBrains Mono';font-weight:500;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:7px;}
+.reg-v .vd{width:5px;height:5px;border-radius:50%;background:var(--ink-3);}
+.reg-v.ok .vd{background:var(--ink-2);}
+.reg-v.risk{color:var(--signal);}
+.reg-v.risk .vd{background:var(--signal);}
+.reg-verdict{font-family:'JetBrains Mono';font-weight:500;font-size:10px;letter-spacing:.02em;color:var(--ink-3);margin-top:18px;line-height:1.5;}
+.reg-verdict b{color:var(--signal);font-weight:600;}
+@media(prefers-reduced-motion:reduce){
+  .hero-eyebrow,.hero-h1,.hero-lead,.hero-cta-row,.hero-reg{opacity:1!important;transform:none!important;animation:none!important;}
+  .reg-top .rt-live .pulse{animation:none;}
+}
+@media(max-width:920px){
+  .hero-grid{grid-template-columns:1fr;gap:48px;}
+  .reg-card{max-width:420px;}
 }
 
-.footer-link {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--white-faint);
-  text-decoration: none;
-  transition: color 0.2s;
+
+/* ============================================================
+   2 · REFRAME — VALLEY. deliberately quiet so the field hits harder.
+   ============================================================ */
+.reframe{padding:118px 0;}
+.reframe h2{font-family:'Playfair Display';font-weight:600;font-size:42px;line-height:1.14;letter-spacing:-0.02em;margin-bottom:38px;max-width:20ch;}
+.reframe h2 .em{font-style:italic;font-weight:500;color:var(--signal);}
+.reframe p{font-size:19px;color:var(--ink-2);line-height:1.74;margin-bottom:24px;max-width:58ch;}
+.reframe p:last-child{margin-bottom:0;}
+.reframe p b{color:var(--ink);font-weight:600;}
+.reframe .pull{font-family:'Playfair Display';font-weight:500;font-style:italic;font-size:25px;color:var(--ink);line-height:1.4;max-width:24ch;letter-spacing:-0.014em;margin-top:6px;padding-left:24px;border-left:2px solid var(--signal);}
+
+/* ============================================================
+   3 · FIELD — PEAK. stronger visual territory without publishing
+   the diagnostic framework. Uses large statement, depth field,
+   under-named moments, and a restrained system-echo artifact.
+   ============================================================ */
+.field{
+  position:relative;
+  background:var(--dark);
+  color:var(--dark-ink);
+  padding:0;
+  overflow:hidden;
+  isolation:isolate;
+}
+.field::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:72px 72px;
+  opacity:.32;
+  -webkit-mask-image:radial-gradient(120% 78% at 50% 34%,#000,transparent 76%);
+          mask-image:radial-gradient(120% 78% at 50% 34%,#000,transparent 76%);
+}
+.field::after{
+  content:"decision field";
+  position:absolute;
+  right:-.12em;
+  top:110px;
+  z-index:0;
+  font-family:'Playfair Display';
+  font-weight:700;
+  font-style:italic;
+  font-size:clamp(92px,15vw,230px);
+  line-height:.8;
+  letter-spacing:-.06em;
+  color:rgba(255,255,255,.025);
+  pointer-events:none;
+  white-space:nowrap;
+}
+.field-haze{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(42% 54% at 18% 28%,rgba(236,106,64,.15),transparent 70%),
+    radial-gradient(48% 58% at 84% 72%,rgba(255,255,255,.06),transparent 72%),
+    linear-gradient(180deg,rgba(255,255,255,.02),transparent 35%,rgba(0,0,0,.20));
+  animation:atmosDrift 34s ease-in-out infinite alternate;
+}
+@media(prefers-reduced-motion:reduce){.field-haze{animation:none;}}
+.field .wrap{position:relative;z-index:1;}
+
+/* opening composition: copy + system echo, not a roadmap */
+.field-open{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:82px;
+  align-items:end;
+  padding:136px 0 104px;
+  border-bottom:1px solid var(--dark-line);
+}
+.field-open .sec-mark{margin-bottom:42px;}
+.field-statement{
+  font-family:'Playfair Display';
+  font-weight:600;
+  font-size:clamp(42px,6vw,72px);
+  line-height:.99;
+  letter-spacing:-0.032em;
+  color:var(--dark-ink);
+  max-width:13.5ch;
+}
+.field-statement .em{
+  font-style:italic;
+  font-weight:500;
+  color:var(--signal-hot);
+}
+.field-open p{
+  color:var(--dark-ink-2);
+  font-size:18.5px;
+  line-height:1.72;
+  max-width:54ch;
+  margin-top:34px;
 }
 
-.footer-link:hover { color: var(--white-dim); }
+/* abstract system echo: shows Astriva is larger than one release
+   without naming future systems or exposing roadmap. */
+.field-echo{
+  position:relative;
+  border:1px solid var(--dark-line-2);
+  border-radius:18px;
+  background:
+    radial-gradient(120% 120% at 100% 0%,rgba(236,106,64,.10),transparent 50%),
+    rgba(255,255,255,.035);
+  box-shadow:0 32px 80px -52px rgba(0,0,0,.75);
+  padding:22px;
+  overflow:hidden;
+}
+.field-echo::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1px);
+  background-size:22px 22px;
+  opacity:.18;
+  -webkit-mask-image:linear-gradient(135deg,#000,transparent 76%);
+          mask-image:linear-gradient(135deg,#000,transparent 76%);
+}
+.field-echo > *{position:relative;z-index:1;}
+.fe-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.fe-kicker{
+  font-family:'JetBrains Mono';
+  font-weight:500;
+  font-size:9.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--dark-ink-3);
+}
+.fe-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--signal-hot);
+  box-shadow:0 0 0 5px rgba(236,106,64,.11);
+}
+.fe-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:15px 0;
+  border-top:1px solid var(--dark-line);
+}
+.fe-row:first-of-type{border-top:0;}
+.fe-name{
+  font-family:'Inter Tight';
+  font-weight:600;
+  font-size:15px;
+  color:var(--dark-ink);
+  letter-spacing:-.012em;
+}
+.fe-state{
+  font-family:'JetBrains Mono';
+  font-weight:500;
+  font-size:9.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--signal-hot);
+}
+.fe-row.dimmed .fe-name{color:var(--dark-ink-3);}
+.fe-row.dimmed .fe-state{color:var(--dark-ink-3);}
+.fe-foot{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--dark-line);
+  font-family:'JetBrains Mono';
+  font-weight:500;
+  font-size:10px;
+  line-height:1.55;
+  letter-spacing:.02em;
+  color:var(--dark-ink-3);
+}
 
-  /* ── DIVIDER ── */
-  .divider-line {
-    display: inline-block;
-    background: var(--white-faint);
-    height: 2px;
-    width: 40px;
-    margin: 8px 0 28px;
+/* under-named field moments: strong visual rhythm, no taxonomy */
+.moments{
+  position:relative;
+  padding:14px 0 24px;
+}
+.moment{
+  position:relative;
+  display:grid;
+  grid-template-columns:120px minmax(0,1fr);
+  gap:38px;
+  align-items:center;
+  min-height:132px;
+  border-bottom:1px solid var(--dark-line);
+}
+.moment:last-child{border-bottom:none;}
+.moment::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:50%;
+  width:0;
+  height:1px;
+  background:var(--signal-hot);
+  opacity:.75;
+  transition:width .42s var(--ease-soft);
+}
+.moment:hover::before{width:74px;}
+.moment .m-num{
+  font-family:'Playfair Display';
+  font-weight:500;
+  font-style:italic;
+  font-size:58px;
+  line-height:.82;
+  letter-spacing:-.04em;
+  color:rgba(255,255,255,.105);
+  transition:color .28s ease,transform .28s var(--ease-settle);
+}
+.moment:hover .m-num{
+  color:var(--signal-hot);
+  transform:translateX(8px);
+}
+.moment p{
+  font-family:'Playfair Display';
+  font-weight:500;
+  font-size:clamp(25px,3.4vw,40px);
+  line-height:1.16;
+  letter-spacing:-0.026em;
+  color:var(--dark-ink);
+  max-width:28ch;
+}
+.moment p .dim{
+  color:var(--dark-ink-3);
+  font-style:italic;
+  font-weight:400;
+}
+.field .wrap.flush{padding:0;}
+.field-foot{
+  padding:48px 0 130px;
+  font-size:16.5px;
+  color:var(--dark-ink-2);
+  line-height:1.7;
+  max-width:62ch;
+  border-top:1px solid var(--dark-line);
+}
+.field-foot b{color:var(--dark-ink);font-weight:500;}
+
+@media(max-width:900px){
+  .field-open{
+    grid-template-columns:1fr;
+    gap:52px;
+    padding:104px 0 86px;
   }
-
-  /* ── FOCUS + REDUCED MOTION ── */
-  a:focus-visible { outline: 2px solid var(--white-faint); outline-offset: 3px; }
-  .btn-primary:focus-visible { outline: 2px solid rgba(236,106,64,0.55); outline-offset: 3px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .btn-primary::after { transition: none; }
+  .field-echo{max-width:420px;}
+}
+@media(max-width:680px){
+  .field-open{padding:88px 0 72px;}
+  .moment{
+    grid-template-columns:54px minmax(0,1fr);
+    gap:20px;
+    min-height:110px;
   }
+  .moment::before{display:none;}
+  .moment .m-num{font-size:38px;}
+  .field-foot{padding:38px 0 92px;}
+}
+/* ============================================================
+   4 · LENS AT WORK — SHARP. diagnostic field notes, not feature cards.
+   asymmetric ledger: each note is an observation + a clinical read.
+   ============================================================ */
+.lens{padding:128px 0;background:var(--ground);}
+.lens-head{max-width:62ch;margin-bottom:18px;}
+.lens-head h2{font-family:'Playfair Display';font-weight:600;font-size:40px;line-height:1.12;letter-spacing:-0.02em;max-width:18ch;}
+.lens-head h2 .em{font-style:italic;font-weight:500;color:var(--signal);}
+.lens-head .hint{font-size:16px;color:var(--ink-2);line-height:1.66;margin-top:22px;max-width:50ch;}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .container { padding: 0 20px; }
-    nav { padding: 16px 20px; }
-    .nav-brand-sep, .nav-brand-sub { display: none; }
-    .nav-right .nav-link { display: none; }
-    .catalog-row { grid-template-columns: 1fr; gap: 12px; }
-    .catalog-row-status { align-self: flex-start; }
-    .content-bridge { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 20px; align-items: flex-start; }
-    .footer-links { flex-wrap: wrap; gap: 16px; }
-  }
+.ledger{margin-top:56px;border-top:1px solid var(--line-2);}
+.note{display:grid;grid-template-columns:52px 1.1fr 1fr;gap:36px;align-items:start;padding:34px 0;border-bottom:1px solid var(--line);position:relative;transition:padding-left .3s var(--ease-soft);}
+.note::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--signal);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease-soft);}
+.note:hover{padding-left:18px;}
+.note:hover::before{transform:scaleY(1);}
+.note .nt-ix{font-family:'JetBrains Mono';font-weight:600;font-size:12px;color:var(--signal);padding-top:4px;}
+.note .nt-obs{font-family:'Inter Tight';font-weight:600;font-size:19px;letter-spacing:-0.016em;color:var(--ink);line-height:1.32;}
+.note .nt-read{position:relative;padding-left:24px;}
+.note .nt-read::before{content:"reads as";position:absolute;left:0;top:2px;display:none;}
+.note .nt-readtag{font-family:'JetBrains Mono';font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:9px;}
+.note .nt-readbody{font-size:14.5px;color:var(--ink-2);line-height:1.62;}
+.note .nt-readbody b{color:var(--ink);font-weight:600;}
+.lens-foot{margin-top:48px;font-family:'Playfair Display';font-weight:500;font-style:italic;font-size:26px;color:var(--ink);line-height:1.42;max-width:30ch;letter-spacing:-0.014em;}
+.lens-foot b{font-style:normal;font-weight:600;color:var(--signal);}
+@media(max-width:820px){
+  .note{grid-template-columns:36px 1fr;gap:12px 16px;}
+  .note .nt-read{grid-column:2;padding-left:0;}
+  .note .nt-obs{margin-bottom:6px;}
+}
+
+/* ============================================================
+   5 · FIRST SYSTEM — SOLID. real product handoff with weight.
+   ============================================================ */
+.system{padding:128px 0;background:var(--surface);}
+.system-grid{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center;}
+.system h2{font-family:'Playfair Display';font-weight:600;font-size:40px;line-height:1.08;letter-spacing:-0.02em;margin-bottom:22px;max-width:15ch;}
+.system h2 .nm{color:var(--signal);font-style:italic;font-weight:500;}
+.system .sub{font-size:17.5px;color:var(--ink-2);line-height:1.7;max-width:46ch;margin-bottom:18px;}
+.system .sub b{color:var(--ink);font-weight:600;}
+.system .sub:last-of-type{margin-bottom:32px;}
+.system .meta{font-family:'JetBrains Mono';font-weight:500;font-size:12px;color:var(--ink-3);letter-spacing:.03em;margin-bottom:32px;display:flex;gap:14px;flex-wrap:wrap;}
+.system .meta span:nth-child(even){color:var(--line-2);}
+
+/* handoff card — substantial, product-real, but a brand artifact not a proof object */
+.system-card{position:relative;background:var(--dark);color:var(--dark-ink);border-radius:20px;padding:34px;overflow:hidden;box-shadow:0 34px 72px -44px rgba(20,20,26,.6);}
+.system-card::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--dark-line) 1px,transparent 1px);background-size:34px 34px;opacity:.2;-webkit-mask-image:radial-gradient(120% 100% at 80% 0%,#000,transparent 70%);mask-image:radial-gradient(120% 100% at 80% 0%,#000,transparent 70%);}
+.system-card > *{position:relative;z-index:1;}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.sc-name{font-family:'JetBrains Mono';font-weight:600;font-size:15px;color:var(--dark-ink);letter-spacing:-0.01em;}
+.sc-state{font-family:'JetBrains Mono';font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal-hot);display:inline-flex;align-items:center;gap:8px;}
+.sc-state .lv{width:6px;height:6px;border-radius:50%;background:var(--signal-hot);box-shadow:0 0 0 4px rgba(244,122,78,.16);}
+.sc-pressure{border:1px solid var(--dark-line-2);border-radius:14px;background:rgba(255,255,255,.03);padding:22px 24px;}
+.sc-pressure .scp-k{font-family:'JetBrains Mono';font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dark-ink-3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sc-pressure .scp-k .pl{width:14px;height:1.5px;background:var(--signal-hot);opacity:.8;}
+.sc-pressure .scp-v{font-family:'Inter Tight';font-weight:600;font-size:18px;color:var(--dark-ink);letter-spacing:-0.014em;line-height:1.36;}
+.sc-meta{display:flex;gap:0;margin-top:24px;border-top:1px solid var(--dark-line);}
+.sc-meta div{flex:1;padding-top:18px;}
+.sc-meta div + div{border-left:1px solid var(--dark-line);padding-left:20px;}
+.sc-meta .m-k{font-family:'JetBrains Mono';font-weight:500;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dark-ink-3);margin-bottom:7px;}
+.sc-meta .m-v{font-family:'JetBrains Mono';font-weight:500;font-size:12px;color:var(--dark-ink-2);letter-spacing:-0.01em;}
+
+/* system selector — under-card state switcher, preserves card weight */
+.system-panel-wrap{width:100%;}
+.system-card{min-height:292px;}
+.system-card.is-dev{filter:saturate(.72);}
+.system-card.is-dev::before{opacity:.12;}
+.sc-content{position:relative;min-height:178px;}
+.sc-view{transition:opacity .32s var(--ease-soft),transform .34s var(--ease-soft),visibility .32s;}
+.sc-view[hidden]{display:block;visibility:hidden;opacity:0;position:absolute;inset:0;transform:translateY(8px);pointer-events:none;}
+.sc-view:not([hidden]){visibility:visible;opacity:1;position:relative;transform:none;}
+.sc-dev-box{
+  border:1px solid var(--dark-line-2);
+  border-radius:14px;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.022),rgba(255,255,255,.022) 7px,transparent 7px,transparent 14px),rgba(255,255,255,.018);
+  padding:24px;
+  min-height:178px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:16px;
+}
+.sc-dev-status{font-family:'JetBrains Mono';font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dark-ink-3);display:inline-flex;align-items:center;gap:9px;}
+.sc-dev-status .ring{width:9px;height:9px;border-radius:50%;border:1px solid var(--dark-ink-3);display:inline-block;}
+.sc-dev-copy{font-size:14.5px;color:var(--dark-ink-2);line-height:1.58;max-width:42ch;}
+.sc-dev-copy b{color:var(--dark-ink);font-weight:600;}
+.sc-dev-foot{font-family:'JetBrains Mono';font-weight:500;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dark-ink-3);padding-top:14px;border-top:1px solid var(--dark-line);}
+.system-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.system-switch button{
+  border:1px solid var(--line-2);
+  background:rgba(255,255,255,.68);
+  color:var(--ink-2);
+  border-radius:12px;
+  padding:15px 16px;
+  min-height:64px;
+  text-align:left;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  transition:border-color .2s var(--ease-soft),background .2s var(--ease-soft),box-shadow .25s var(--ease-soft),transform .18s var(--ease-soft);
+}
+.system-switch button:hover{border-color:var(--signal);transform:translateY(-1px);}
+.system-switch button[aria-selected="true"]{border-color:var(--signal);background:linear-gradient(180deg,rgba(236,106,64,.10),rgba(255,255,255,.76));box-shadow:0 18px 42px -34px rgba(236,106,64,.55);}
+.system-switch .sw-copy{display:flex;flex-direction:column;gap:4px;}
+.system-switch .sw-k{font-family:'JetBrains Mono';font-weight:500;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
+.system-switch button[aria-selected="true"] .sw-k{color:var(--signal);}
+.system-switch .sw-v{font-family:'Inter Tight';font-weight:600;font-size:14.5px;letter-spacing:-.01em;color:var(--ink);}
+.system-switch .sw-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--ink-3);flex:0 0 auto;}
+.system-switch button[aria-selected="true"] .sw-dot{background:var(--signal);border-color:var(--signal);box-shadow:0 0 0 4px var(--signal-ghost);}
+.system-switch button[data-system-option="future"] .sw-dot{background:transparent;}
+.system-card.is-dev .sc-state{color:var(--dark-ink-3);}
+.system-card.is-dev .sc-state .lv{background:transparent;border:1px solid var(--dark-ink-3);box-shadow:none;}
+@media(max-width:680px){.system-switch{grid-template-columns:1fr;}.system-card{min-height:auto;}.sc-content{min-height:190px;}}
+@media(prefers-reduced-motion:reduce){.sc-view,.system-switch button{transition:none;}}
+
+@media(max-width:880px){.system-grid{grid-template-columns:1fr;gap:48px;}.system-card{max-width:480px;}}
+
+/* ============================================================
+   6 · CLOSE — high. full-force restatement.
+   ============================================================ */
+.close{position:relative;padding:148px 0 130px;background:var(--ground);text-align:center;overflow:hidden;}
+.close-atmos{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(56% 70% at 50% 100%,rgba(236,106,64,.06),transparent 70%);}
+.close .wrap{position:relative;z-index:1;}
+.close h2{font-family:'Playfair Display';font-weight:700;font-size:62px;letter-spacing:-0.03em;line-height:1.03;margin:0 auto 28px;max-width:16ch;}
+.close h2 .em{font-style:italic;font-weight:600;color:var(--signal);}
+.close .sub{color:var(--ink-2);font-size:18.5px;max-width:50ch;margin:0 auto 44px;line-height:1.62;}
+.close-cta{display:flex;align-items:center;gap:28px;justify-content:center;flex-wrap:wrap;}
+
+footer{background:var(--ground);border-top:1px solid var(--line);padding:46px 0;}
+.foot-inner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.foot-inner .brand{font-family:'JetBrains Mono';font-weight:600;font-size:13px;color:var(--ink);}
+.foot-inner .spine{font-size:13px;color:var(--ink-3);letter-spacing:-0.005em;}
+.foot-links{margin-left:auto;display:flex;gap:24px;}
+.foot-links a{font-family:'Inter Tight';font-weight:500;font-size:13px;color:var(--ink-2);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .18s;}
+.foot-links a:hover{color:var(--signal);}
+.foot-links a i{font-size:15px;}
+
+@media(max-width:960px){
+  .hero{padding:100px 0 92px;}
+  .hero-h1{font-size:60px;}
+  .field-statement{font-size:48px;}
+  .reframe h2{font-size:34px;}
+  .lens-head h2,.system h2{font-size:32px;}
+  .close h2{font-size:44px;}
+}
+@media(max-width:680px){
+  .wrap{padding:0 24px;}
+  .hero-h1{font-size:42px;line-height:1.02;}
+  .hero-lead{font-size:17px;}
+  .reframe{padding:84px 0;}
+  .field-open{padding:88px 0 72px;}.pressures{padding:56px 0 68px;}.field-foot{padding:36px 0 88px;}
+  .lens{padding:90px 0;}.system{padding:90px 0;}.close{padding:96px 0 84px;}
+  .reframe h2{font-size:29px;}.field-statement{font-size:36px;}
+  .lens-head h2,.system h2{font-size:28px;}.close h2{font-size:34px;}
+  .reframe .pull{font-size:21px;}.lens-foot{font-size:22px;}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-<a href="index.html" class="nav-brand">
-      <span class="nav-brand-name">Astriva</span>
-    <span class="nav-brand-sep">—</span>
-    <span class="nav-brand-sub">Structural Systems</span>
-  </a>
-  <div class="nav-right">
-    <a href="#systems" class="nav-link">Systems</a>
-<a href="decision-flow/" class="nav-cta">View Decision-Flow →</a>
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="brand">astriva</span>
+    <span class="tag">decision systems for Shopify</span>
+    <div class="nav-right">
+      <a href="#field" class="nav-link">The field</a>
+      <a href="#lens" class="nav-link">How we see</a>
+      <a href="YOUTUBE_URL" class="nav-link">Breakdowns</a>
+      <a href="DECISION_FLOW_URL" class="nav-cta">Decision-Flow <span aria-hidden="true">&rarr;</span></a>
+    </div>
   </div>
 </nav>
 
-<!-- §1 HERO -->
-<section id="hero">
-  <div class="container">
-    <div class="hero-label reveal">
-      <span>Shopify Structural Optimization</span>
-    </div>
-    <h1 class="reveal reveal-delay-1">Structural<br>Systems for<br><em>Shopify Growth.</em></h1>
-    <p class="hero-sub reveal reveal-delay-2">We build controlled evaluation systems that turn traffic into completed decisions.</p>
-    <div class="cta-group reveal reveal-delay-3">
-      <a href="#systems" class="btn-primary">View Systems →</a>
-      <a href="https://youtu.be/hF6_5iuzkIg?si=bJ6RdtbsYJXEUGkA" class="btn-ghost" target="_blank" rel="noopener noreferrer">Watch System 01 Breakdown →</a>
-    </div>
+<!-- 1 · HERO -->
+<section class="hero" id="hero">
+  <div class="hero-atmos" aria-hidden="true">
+    <div class="glow" data-parallax="0.12"></div>
+    <div class="vline"></div>
   </div>
-</section>
-
-<!-- §2 PHILOSOPHY -->
-<section id="philosophy">
-  <div class="container">
-    <div class="section-num">Philosophy</div>
-    <h2 class="reveal">Not templates.<br><em>Systems.</em></h2>
-    <div class="divider-line"></div>
-    <div class="philosophy-body reveal">
-      <p>Most Shopify stores are built to <strong>display products.</strong> Astriva builds systems to <strong>close decisions.</strong></p>
-      <p>The difference is structural. The buyer journey has specific failure points — on the product page, in collections, at navigation, at cart. Each one breaks at a structural level, not a visual one.</p>
-      <p>Every system we build targets one failure point precisely. Not a full redesign. Not a theme. A controlled layer that resolves a specific break in the decision sequence.</p>
-    </div>
-    <div class="philosophy-axiom reveal">
-      System = a structural layer that controls a specific decision point in the buyer journey.<br>
-      Not a design. Not a page. A module that resolves a failure point.<br><br>
-      Delivered as Shopify OS 2.0 sections + documentation. No apps. No theme replacement.
-    </div>
-  </div>
-</section>
-
-<!-- §3 SYSTEMS CATALOG -->
-<section id="systems">
-  <div class="container">
-    <div class="section-num">Systems Catalog</div>
-    <h2 class="reveal">Every system targets<br>one failure point.</h2>
-
-    <div style="margin-top:48px;">
-
-      <!-- Product Page Systems -->
-      <div class="catalog-category reveal">
-        <div class="catalog-category-label">Product Page Systems</div>
-        <div class="catalog-rows">
-<a href="decision-flow/" class="catalog-row">
-                <div class="catalog-row-left">
-              <div class="catalog-row-name">Decision-Flow</div>
-              <div class="catalog-row-desc">Stabilizes evaluation · keeps pricing legible · maintains purchase context through checkout</div>
-            </div>
-            <span class="catalog-row-status available">Available — $49</span>
-          </a>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow hero-eyebrow"><span class="dot"></span>decision systems for Shopify</div>
+        <h1 class="hero-h1">Your store doesn't have a design problem. It has a <span class="turn">decision</span> problem.</h1>
+        <p class="hero-lead">astriva builds decision systems for Shopify stores. We identify where buying intent breaks down, then turn that diagnosis into <b>installable systems merchants can use.</b></p>
+        <div class="hero-cta-row">
+          <a href="#reframe" class="btn-line">See what we mean <span aria-hidden="true">&darr;</span></a>
+          <a href="#system" class="btn-ghost">View the first system <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
-      <!-- Collection Systems -->
-      <div class="catalog-category reveal">
-        <div class="catalog-category-label">Collection Systems</div>
-        <div class="catalog-rows">
-          <div class="catalog-row catalog-row--inactive">
-            <div class="catalog-row-left">
-              <div class="catalog-row-name">Collection Tabs</div>
-              <div class="catalog-row-desc">Segments collection pages into controlled evaluation zones · reduces choice overload</div>
-            </div>
-            <span class="catalog-row-status in-dev">In Development</span>
+      <div class="hero-reg" aria-hidden="true">
+        <div class="reg-card">
+          <div class="reg-top">
+            <span class="rt-l">store · read for decisions</span>
+            <span class="rt-live"><span class="pulse"></span>reading</span>
           </div>
-          <div class="catalog-row catalog-row--inactive">
-            <div class="catalog-row-left">
-              <div class="catalog-row-name">Smart Filters</div>
-              <div class="catalog-row-desc">Filter logic to narrow choice without resetting evaluation.</div>
-            </div>
-            <span class="catalog-row-status later">Later</span>
+          <div class="reg-body">
+            <div class="reg-row"><span class="reg-k">Looks finished</span><span class="reg-v ok"><span class="vd"></span>yes</span></div>
+            <div class="reg-row"><span class="reg-k">Loads fast</span><span class="reg-v ok"><span class="vd"></span>yes</span></div>
+            <div class="reg-row"><span class="reg-k">Buying decision</span><span class="reg-v risk"><span class="vd"></span>fragile</span></div>
           </div>
+          <div class="reg-verdict">the design may be doing its job. <b>the decision needs its own system.</b></div>
         </div>
-      </div>
-
-      <!-- Navigation Systems -->
-      <div class="catalog-category reveal">
-        <div class="catalog-category-label">Navigation Systems</div>
-        <div class="catalog-rows">
-          <div class="catalog-row catalog-row--inactive">
-            <div class="catalog-row-left">
-              <div class="catalog-row-name">Breadcrumb Clarity</div>
-              <div class="catalog-row-desc">Positional context during browsing — reduces disorientation at deep product levels.</div>
-            </div>
-            <span class="catalog-row-status later">Later</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cart Systems -->
-      <div class="catalog-category reveal">
-        <div class="catalog-category-label">Cart Systems</div>
-        <div class="catalog-rows">
-          <div class="catalog-row catalog-row--inactive">
-            <div class="catalog-row-left">
-              <div class="catalog-row-name">Cart Confidence Layer</div>
-              <div class="catalog-row-desc">Reassurance at cart — resolves last-moment hesitation before checkout.</div>
-            </div>
-            <span class="catalog-row-status later">Later</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- §4 STRUCTURAL PERSPECTIVE -->
-<section id="perspective">
-  <div class="container">
-    <div class="section-num">Structural Perspective</div>
-    <p class="perspective-statement reveal">Traffic isn't<br>the constraint.<br>Structure is.</p>
-    <div class="perspective-lines reveal">
-      <div class="perspective-line">
-        <span class="perspective-line-dot"></span>
-        <span>Scaling traffic into an unresolved page doesn't improve results. It compounds the leak — at every stage of the journey.</span>
-      </div>
-      <div class="perspective-line">
-        <span class="perspective-line-dot"></span>
-        <span>The buyer journey breaks at specific points — collections, product pages, navigation, cart. Each break has a structural cause and a structural fix.</span>
-      </div>
-      <div class="perspective-line">
-        <span class="perspective-line-dot"></span>
-        <span>Clean design improves perception. It doesn't control decision sequencing. Structure operates beneath appearance — at every stage.</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- §5 CONTENT BRIDGE -->
-<section id="content">
-  <div class="container">
-    <div class="section-num">Breakdown</div>
-    <h2 class="reveal">See the system<br>explained.</h2>
-    <div class="content-bridge reveal">
+
+<!-- 2 · REFRAME -->
+<section class="reframe" id="reframe">
+  <div class="wrap">
+    <div class="col">
+      <div class="sec-mark rv"><span class="ix">01</span><span class="lbl">where stores lose</span><span class="rule"></span></div>
+      <h2 class="rv s1">The buyer was ready. Nothing looked broken. They left <em>anyway.</em></h2>
+      <p class="rv s2">A store can be well-photographed, fast, and finished, and still lose buyers who were already convinced. The loss never shows up as an error. It shows up as a buyer who was moving toward purchase, and then wasn't.</p>
+      <p class="rv s2">Buying is not a single click. It is a decision carried through options, proof, price, trust, and action. A store can weaken that decision without ever looking broken.</p>
+      <p class="pull rv s3">When the page asks for more confidence than it gives back, a ready buyer quietly stops.</p>
+      <p class="rv s4 mt-lg">That loss is structural, not visual. It lives in how the store carries the decision, not only in how the store looks. <b>That is what astriva builds for.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · FIELD — the brand moment -->
+<section class="field" id="field">
+  <div class="field-haze" aria-hidden="true" data-parallax="0.05"></div>
+  <div class="wrap">
+    <div class="field-open">
       <div>
-        <div class="content-bridge-label">YouTube — System 01: Decision-Flow Breakdown</div>
-        <div class="content-bridge-title">How structural sequencing controls checkout completion.</div>
-        <div class="content-bridge-desc">A full walkthrough of the 11 decision points — what each one fixes and why placement matters.</div>
+        <div class="sec-mark"><span class="ix on-dark">02</span><span class="lbl on-dark">the field</span><span class="rule on-dark"></span></div>
+        <h2 class="field-statement">A store loses buyers in more places than it thinks.</h2>
+        <p>Stores do not lose buyers at one fixed point. They lose them in small moments where intent is still present, but the page stops carrying the decision cleanly. astriva studies those moments without reducing the store to a funnel map.</p>
       </div>
-      <a href="https://youtu.be/hF6_5iuzkIg?si=60kguWpLia75lUIK" class="btn-ghost" target="_blank" rel="noopener noreferrer" style="white-space:nowrap;align-self:center;">Watch →</a>
+
+      <div class="field-echo" aria-hidden="true">
+        <div class="fe-top">
+          <span class="fe-kicker">decision systems field</span>
+          <span class="fe-dot"></span>
+        </div>
+        <div class="fe-row">
+          <span class="fe-name">Decision-Flow</span>
+          <span class="fe-state">available</span>
+        </div>
+        <div class="fe-row dimmed">
+          <span class="fe-name">unnamed system surface</span>
+          <span class="fe-state">held</span>
+        </div>
+        <div class="fe-row dimmed">
+          <span class="fe-name">unnamed system surface</span>
+          <span class="fe-state">held</span>
+        </div>
+        <div class="fe-foot">one released system inside a wider decision-systems field.</div>
+      </div>
+    </div>
+
+    <div class="moments">
+      <div class="moment">
+        <span class="m-num">01</span>
+        <p>The moment a choice has to be made twice.</p>
+      </div>
+      <div class="moment">
+        <span class="m-num">02</span>
+        <p>The moment a buyer is ready to act <span class="dim">and the page has moved on.</span></p>
+      </div>
+      <div class="moment">
+        <span class="m-num">03</span>
+        <p>The moment certainty was needed <span class="dim">and arrived late, or somewhere else.</span></p>
+      </div>
+    </div>
+
+    <div class="wrap flush">
+      <p class="field-foot">These are not categories to memorize. They are signals that the store is carrying the decision poorly. <b>astriva turns that read into systems only where the diagnosis can become useful.</b></p>
     </div>
   </div>
 </section>
 
-<!-- §6 FOOTER -->
-<div class="container">
+<!-- 4 · LENS AT WORK -->
+<section class="lens" id="lens">
+  <div class="wrap">
+    <div class="lens-head">
+      <div class="sec-mark rv"><span class="ix">03</span><span class="lbl">the lens at work</span><span class="rule"></span></div>
+      <h2 class="rv s1">A finished store stops looking finished <em>once you read it for decisions.</em></h2>
+      <p class="hint rv s2">A few signals astriva notices on a Shopify store — small enough to be missed, important enough to change the buyer's path.</p>
+    </div>
 
-  <footer>
-  <div class="footer-brand">
-    <span class="footer-brand-name">Astriva</span>
-    <span class="footer-brand-sep">—</span>
-    <span class="footer-brand-sub">Decision-Flow</span>
-  </div>
-  <div class="footer-links">
-      <a href="https://www.youtube.com/channel/UCiSs6crMcJhfc_-_fFVO_RA" class="footer-link" target="_blank" rel="noopener noreferrer">YouTube</a>
+    <div class="ledger">
+      <div class="note rv s1">
+        <span class="nt-ix">01</span>
+        <div class="nt-obs">A buyer makes a choice, then has to look somewhere else to understand what changed.</div>
+      </div>
+      <div class="note rv s2">
+        <span class="nt-ix">02</span>
+        <div class="nt-obs">The buyer is ready to act, but the path to act is no longer where the decision is happening.</div>
+      </div>
+      <div class="note rv s3">
+        <span class="nt-ix">03</span>
+        <div class="nt-obs">The buyer hesitates in one place, while the reassurance lives somewhere tidy and far away.</div>
+      </div>
+    </div>
 
-    <a href="https://www.instagram.com/astrivastudio" class="footer-link" target="_blank" rel="noopener noreferrer">Instagram</a>
-    <a href="https://x.com/astriva_studio" class="footer-link" target="_blank" rel="noopener noreferrer">X</a>
+    <p class="lens-foot rv s2">Small things. <b>They decide who buys.</b></p>
   </div>
-  <span class="footer-mark">Built for conversion. Not decoration.</span>
+</section>
+
+<!-- 5 · FIRST SYSTEM — Decision-Flow -->
+<section class="system" id="system">
+  <div class="wrap">
+    <div class="system-grid">
+      <div>
+        <div class="sec-mark"><span class="ix">04</span><span class="lbl">the first system</span><span class="rule"></span></div>
+        <h2><span class="nm">Decision-Flow</span> is the first available system.</h2>
+        <p class="sub">astriva began where the buying decision is most exposed: the product page. It is where evaluation turns into action, and where a small break in confidence can cost the sale.</p>
+        <p class="sub"><b>Decision-Flow is an installable Shopify product-page system.</b> It helps keep the buying decision intact inside your existing theme, without a redesign.</p>
+        <a href="DECISION_FLOW_URL" class="btn-primary">See Decision-Flow <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="system-panel-wrap">
+        <div class="system-card" id="system-card" data-system-card>
+          <div class="sc-top">
+            <span class="sc-name" data-system-name>astriva / Decision-Flow</span>
+            <span class="sc-state" data-system-state><span class="lv"></span><span data-system-state-label>available</span></span>
+          </div>
+
+          <div class="sc-content">
+            <div class="sc-view" data-system-view="available">
+              <div class="sc-pressure">
+                <div class="scp-k"><span class="pl"></span>what it is for</div>
+                <div class="scp-v">Keeping the buying decision intact on the product page.</div>
+              </div>
+              <div class="sc-meta">
+                <div><div class="m-k">platform</div><div class="m-v">Shopify OS 2.0</div></div>
+                <div><div class="m-k">form</div><div class="m-v">Installable</div></div>
+                <div><div class="m-k">redesign</div><div class="m-v">None</div></div>
+              </div>
+            </div>
+
+            <div class="sc-view" data-system-view="future" hidden>
+              <div class="sc-dev-box">
+                <span class="sc-dev-status"><span class="ring"></span>being prepared · not announced</span>
+                <p class="sc-dev-copy">Additional systems are not announced yet. <b>astriva releases a system only when the diagnosis is clear enough to become useful and installable.</b></p>
+                <div class="sc-dev-foot">Decision-Flow remains the available system</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="system-switch" role="tablist" aria-label="Astriva system states">
+          <button type="button" data-system-option="available" aria-selected="true">
+            <span class="sw-copy"><span class="sw-k">available now</span><span class="sw-v">Decision-Flow</span></span>
+            <span class="sw-dot" aria-hidden="true"></span>
+          </button>
+          <button type="button" data-system-option="future" aria-selected="false">
+            <span class="sw-copy"><span class="sw-k">being prepared</span><span class="sw-v">Additional systems</span></span>
+            <span class="sw-dot" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · CLOSE -->
+<section class="close" id="close">
+  <div class="close-atmos" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>Built to <span class="em">decide</span>, not just to be seen.</h2>
+    <p class="sub">astriva builds decision systems for Shopify stores — so the buyer you earned has a clearer path from interest to purchase. Decision-Flow is where to start.</p>
+    <div class="close-cta">
+      <a href="DECISION_FLOW_URL" class="btn-primary">See Decision-Flow <span aria-hidden="true">&rarr;</span></a>
+      <a href="YOUTUBE_URL" class="btn-ghost">Watch the breakdowns <span aria-hidden="true">&#8599;</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span class="brand">astriva</span>
+    <span class="spine">Most stores are built to be seen. astriva builds them to decide.</span>
+    <div class="foot-links">
+      <a href="DECISION_FLOW_URL">Decision-Flow</a>
+      <a href="YOUTUBE_URL"><i class="ti ti-brand-youtube"></i> YouTube</a>
+      <a href="CONTACT_URL">Contact</a>
+    </div>
+  </div>
 </footer>
 
-</div>
-
 <script>
-  // ── Scroll reveal ──
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
-
-  // Hero fires immediately
-  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), 150 + i * 120);
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.16});
+  ['reframe','field','lens','system','close'].forEach(function(id){
+    var el=document.getElementById(id);if(el)io.observe(el);
   });
+})();
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var layers=[].slice.call(document.querySelectorAll('[data-parallax]'));
+  if(!layers.length)return;
+  var ticking=false;
+  function update(){
+    var y=window.pageYOffset;
+    layers.forEach(function(l){
+      var rate=parseFloat(l.getAttribute('data-parallax'))||0;
+      l.style.transform='translate3d(0,'+(y*rate*-1).toFixed(2)+'px,0)';
+    });
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!ticking){window.requestAnimationFrame(update);ticking=true;}
+  },{passive:true});
+  update();
+})();
 
-  // ── Safety guards ──
-  if (document.querySelector('a[href="YOUTUBE_URL"]')) {
-    console.warn('[Astriva] YOUTUBE_URL is not set — update before going live.');
+(function(){
+  var card=document.querySelector('[data-system-card]');
+  if(!card)return;
+  var buttons=[].slice.call(document.querySelectorAll('[data-system-option]'));
+  var views=[].slice.call(document.querySelectorAll('[data-system-view]'));
+  var nameEl=document.querySelector('[data-system-name]');
+  var stateLabel=document.querySelector('[data-system-state-label]');
+
+  function setMode(mode){
+    var isFuture=mode==='future';
+    card.classList.toggle('is-dev',isFuture);
+    if(nameEl)nameEl.textContent=isFuture?'astriva / additional systems':'astriva / Decision-Flow';
+    if(stateLabel)stateLabel.textContent=isFuture?'being prepared':'available';
+    views.forEach(function(view){
+      var show=view.getAttribute('data-system-view')===mode;
+      if(show)view.removeAttribute('hidden');
+      else view.setAttribute('hidden','');
+    });
+    buttons.forEach(function(btn){
+      btn.setAttribute('aria-selected',btn.getAttribute('data-system-option')===mode?'true':'false');
+    });
   }
-  if (document.querySelector('a[href="DECISION_FLOW_URL"]')) {
-    console.warn('[Astriva] DECISION_FLOW_URL is not set — update before going live.');
-  }
+
+  buttons.forEach(function(btn){
+    btn.addEventListener('click',function(){setMode(btn.getAttribute('data-system-option'));});
+  });
+})();
+(function(){
+  ['DECISION_FLOW_URL','YOUTUBE_URL','CONTACT_URL'].forEach(function(p){
+    if(document.querySelector('a[href="'+p+'"]'))console.warn('[astriva] '+p+' is not set — update before going live.');
+  });
+})();
 </script>
-
 </body>
 </html>
