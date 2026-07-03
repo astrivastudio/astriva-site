@@ -99,7 +99,8 @@ h2{font-family:'Inter Tight';font-weight:600;letter-spacing:-0.022em;line-height
 /* ============== NAV ============== */
 .nav{position:sticky;top:0;z-index:50;background:rgba(247,246,243,.82);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--line);}
 .nav-inner{display:flex;align-items:center;gap:11px;padding:15px 32px;max-width:1080px;margin:0 auto;}
-.nav .brand{font-family:'JetBrains Mono';font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-0.02em;}
+.nav .brand{font-family:'JetBrains Mono';font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-0.02em; text-decoration:none;
+cursor:pointer;}
 .nav .slash{color:var(--ink-3);}
 .nav .prod{font-family:'JetBrains Mono';font-weight:500;font-size:13px;color:var(--ink-2);}
 .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-weight:500;font-size:13px;padding:9px 16px;border-radius:7px;text-decoration:none;transition:background .16s ease,transform .16s;}
@@ -618,7 +619,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 
 <nav class="nav">
   <div class="nav-inner">
-    <span class="brand">astriva</span><span class="slash">/</span><span class="prod">Decision-Flow</span>
+    <a href="https://www.astrivastudio.com/" class="brand">astriva</a><span class="slash">/</span><span class="prod">Decision-Flow</span>
     <a href="#pricing" class="nav-cta">Get it <span class="px">$49</span></a>
   </div>
 </nav>
