@@ -165,14 +165,14 @@ cursor:pointer;}
 .cost{background:var(--dark);color:var(--dark-ink);padding:150px 0;position:relative;overflow:hidden;}
 .cost::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--dark-line) 1px,transparent 1px);background-size:100% 54px;opacity:.34;-webkit-mask-image:radial-gradient(130% 90% at 50% 36%,#000,transparent);mask-image:radial-gradient(130% 90% at 50% 36%,#000,transparent);}
 .cost .wrap{position:relative;text-align:center;z-index:1;}
-.cost .eyebrow{margin-bottom:38px;justify-content:center;}
+.cost .eyebrow{margin-bottom:20px;justify-content:center;}
 .cost-tally{position:relative;display:inline-block;}
 .cost-num{font-family:'JetBrains Mono';font-weight:600;font-size:104px;letter-spacing:-0.05em;color:var(--signal-hot);line-height:.9;text-shadow:0 0 50px rgba(244,122,78,.35);}
 .cost-numlabel{font-family:'JetBrains Mono';font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dark-ink-2);margin-top:18px;}
 /* the bar columns that collapse one by one */
-.cost-cols{display:flex;gap:5px;justify-content:center;align-items:flex-end;height:60px;margin:42px auto 0;width:300px;}
+.cost-cols{display:flex;gap:5px;justify-content:center;align-items:flex-end;height:60px;margin:42px auto 64px;width:300px;}
 .cost-cols i{flex:1;background:var(--signal);border-radius:2px;height:100%;transform-origin:bottom;}
-.cost h2{font-family:'Playfair Display';font-weight:500;font-size:44px;line-height:1.1;letter-spacing:-0.018em;color:var(--dark-ink);max-width:18ch;margin:56px auto 22px;}
+.cost h2{font-family:'Playfair Display';font-weight:500;font-size:44px;line-height:1.1;letter-spacing:-0.018em;color:var(--dark-ink);max-width:18ch;margin:0 auto 22px;}
 .cost h2 .em{font-style:italic;color:var(--signal-hot);}
 .cost p{color:var(--dark-ink-2);font-size:17px;line-height:1.7;max-width:54ch;margin:0 auto;}
 
@@ -685,12 +685,14 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 <!-- 2 · COST -->
 <section class="cost" id="cost">
   <div class="wrap">
-    <div class="eyebrow on-dark"><span class="dot"></span>the cost</div>
     <div class="cost-tally">
-      <div class="cost-num" id="costNum" data-from="128" data-to="0">128</div>
+      <div class="cost-num" id="costNum" data-from="512" data-to="0">512</div>
       <div class="cost-numlabel">ready buyers · handed back this month</div>
     </div>
+
     <div class="cost-cols" id="costCols"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+    <div class="eyebrow on-dark"><span class="dot"></span>the cost</div>
     <h2 class="display">You paid to get them <span class="em">this close</span>.</h2>
     <p>A buyer your ad already brought to the edge of buying: landed, choosing a size, moving toward the button. Then the page handed them back. Not once, and not loudly. Quietly, one earned buyer at a time, for as long as the page stays the way it is.</p>
   </div>
@@ -951,7 +953,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
     <i class="ti ti-brand-x"></i> X
   </a>  
 
-  
+
 
       <!-- Instagram — hidden until ready.
       <a href="[Instagram URL]" target="_blank" rel="noopener">
