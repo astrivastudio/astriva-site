@@ -413,6 +413,8 @@ cursor:pointer;}
 .browser .play{width:66px;height:66px;border-radius:50%;background:var(--signal);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .16s,transform .2s;z-index:2;}
 .browser .play:hover{background:var(--signal-hot);transform:scale(1.07);}
 .browser .play i{font-size:27px;color:#fff;margin-left:3px;}
+.browser .play-stack{display:flex;flex-direction:column;align-items:center;gap:14px;z-index:2;}
+.browser .play-label{font-family:'JetBrains Mono';font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
 .browser .ring{position:absolute;width:66px;height:66px;border-radius:50%;border:1.5px solid var(--signal);animation:ring 2.4s ease-out infinite;}
 .browser .ring.r2{animation-delay:1.2s;}
 @keyframes ring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2.2);opacity:0;}}
@@ -868,8 +870,8 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
     <div class="proof-stage">
       <div class="proof-back"></div>
       <div class="browser">
-        <div class="bar"><span></span><span></span><span></span><div class="url">demo.astrivastudio.com/products/commuter-pack</div></div>
-        <div class="view"><div class="ring"></div><div class="ring r2"></div><div class="play"><i class="ti ti-player-play"></i></div></div>
+        <div class="bar"><span></span><span></span><span></span><div class="url">astrivastudio.com/decision-flow/walkthrough</div></div>
+        <div class="view"><div class="ring"></div><div class="ring r2"></div><div class="play-stack"><div class="play"><i class="ti ti-player-play"></i></div><span class="play-label">Watch · 8 min</span></div></div>
       </div>
     </div>
 <div class="proof-cta">
