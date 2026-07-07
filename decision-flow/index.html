@@ -416,6 +416,7 @@ cursor:pointer;}
 .browser .ring{position:absolute;width:66px;height:66px;border-radius:50%;border:1.5px solid var(--signal);animation:ring 2.4s ease-out infinite;}
 .browser .ring.r2{animation-delay:1.2s;}
 @keyframes ring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2.2);opacity:0;}}
+.browser .view.playing{height:auto;aspect-ratio:16/9;}
 .proof-cta{margin-top:38px;}
 
 /* ============== FIT: L3 calmer (but present) ============== */
@@ -462,6 +463,28 @@ cursor:pointer;}
 .acc .body{padding:0 22px 24px 22px;font-size:15px;color:var(--ink-2);line-height:1.65;max-width:66ch;overflow:hidden;animation:bodyopen .4s var(--ease-sharp);}
 @keyframes bodyopen{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
 
+/* ============== COMPARE: the going rate ============== */
+.compare{background:var(--ground);}
+.compare .eyebrow{margin-bottom:18px;}
+.compare h2{font-size:34px;margin-bottom:14px;}
+.compare .sub{color:var(--ink-2);font-size:16px;line-height:1.65;max-width:54ch;margin:0 0 44px;}
+.cmp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch;}
+.cmp-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 20px;display:flex;flex-direction:column;opacity:0;transform:translateY(20px);transition:opacity .46s var(--ease-sharp),transform .46s var(--ease-sharp);}
+.compare.in .cmp-card{opacity:1;transform:none;}
+.compare.in .cmp-card:nth-child(1){transition-delay:.05s;}
+.compare.in .cmp-card:nth-child(2){transition-delay:.12s;}
+.compare.in .cmp-card:nth-child(3){transition-delay:.19s;}
+.compare.in .cmp-card:nth-child(4){transition-delay:.26s;}
+.cmp-name{font-size:14px;font-weight:600;letter-spacing:-0.01em;}
+.cmp-desc{font-size:12.5px;color:var(--ink-2);line-height:1.55;margin-top:7px;}
+.cmp-price{font-family:'JetBrains Mono';font-weight:600;font-size:21px;letter-spacing:-0.02em;color:var(--ink);margin-top:auto;padding-top:20px;}
+.cmp-terms{font-family:'JetBrains Mono';font-weight:500;font-size:10px;letter-spacing:.02em;color:var(--ink-3);margin-top:6px;line-height:1.5;}
+.cmp-tag{font-family:'JetBrains Mono';font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--signal);margin-bottom:8px;}
+.cmp-card.is-df{border-color:var(--signal);box-shadow:0 18px 40px -28px rgba(236,106,64,.5);}
+.cmp-card.is-df .cmp-price{color:var(--signal);}
+@media(max-width:880px){.cmp-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.cmp-grid{grid-template-columns:1fr;}}
+
 /* ============== PRICING: SCENE 4: structural lock ============== */
 .price{background:var(--dark);color:var(--dark-ink);padding:116px 0;position:relative;overflow:hidden;}
 .price::before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,var(--dark-line) 1px,transparent 1px);background-size:120px 100%;opacity:.32;-webkit-mask-image:linear-gradient(90deg,#000,transparent 65%);mask-image:linear-gradient(90deg,#000,transparent 65%);}
@@ -486,6 +509,10 @@ cursor:pointer;}
 .price-card .note{font-size:11.5px;color:var(--ink-3);margin:10px 0 22px;}
 .price-card .btn-primary{display:flex;justify-content:center;width:100%;}
 .price-card .guar{font-size:11.5px;color:var(--ink-3);margin-top:16px;text-align:center;line-height:1.5;}
+.price-card .next{font-family:'JetBrains Mono';font-weight:500;font-size:13px;color:var(--ink-3);white-space:nowrap;}
+.price-card .note{margin-bottom:14px;}
+.price-card .bonus{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.55;background:var(--ground);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:20px;text-align:left;}
+.price-card .bonus i{color:var(--signal);font-size:15px;flex-shrink:0;margin-top:2px;}
 .brk{position:absolute;width:24px;height:24px;border:2px solid var(--signal);z-index:3;opacity:0;}
 .brk.tl{top:-8px;left:-8px;border-right:none;border-bottom:none;}
 .brk.br{bottom:-8px;right:-8px;border-left:none;border-top:none;}
@@ -596,7 +623,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
-  .rv,.file,.cap-item,.proof-stage,.mech-item,.fit-col li,.pr{opacity:1!important;transform:none!important;}
+  .rv,.file,.cap-item,.proof-stage,.mech-item,.fit-col li,.pr,.cmp-card{opacity:1!important;transform:none!important;}
   .wipe{clip-path:inset(0 0 0 0)!important;}
   .hero-strip .hcarrier{opacity:0;}.hero-strip .hbreak{opacity:1;}
   .cost-num{color:var(--signal-hot)!important;}.close h2 .em{opacity:1;}
@@ -620,7 +647,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 <nav class="nav">
   <div class="nav-inner">
     <a href="https://www.astrivastudio.com/" class="brand">astriva</a><span class="slash">/</span><span class="prod">Decision-Flow</span>
-    <a href="#pricing" class="nav-cta">Get it <span class="px">$49</span></a>
+    <a href="#pricing" class="nav-cta">Get it <span class="px">$99</span></a>
   </div>
 </nav>
 
@@ -703,7 +730,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
   <div class="wrap">
     <div class="deliv-head">
       <div><div class="eyebrow"><span class="dot"></span>what you get</div><h2><span class="wipe">A complete product page system. Yours once you download it.</span></h2></div>
-      <p class="lead">Four section files and a page template that wire into the page you already have. Your store, branding and layout stay exactly as they are.</p>
+      <p class="lead">Three section files and a page template that wire into the page you already have. Your store, branding and layout stay exactly as they are.</p>
     </div>
     <div class="files">
       <div class="file"><i class="ti ti-layout-list"></i><div class="nm">3 section files</div><div class="ds">hero · accordion · reviews</div><div class="ext">.liquid</div></div>
@@ -720,7 +747,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
         <div class="cap-item lead"><span class="n">01</span><span class="k">Variant price</span><span class="v">Recalculates in place; compare-price and discount badge stay readable on every selection.</span></div>
         <div class="cap-item lead"><span class="n">02</span><span class="k">Buy button</span><span class="v">Locked in position on variant change, and re-surfaced in a slim bar the moment it scrolls out of view.</span></div>
         <div class="cap-item lead"><span class="n">03</span><span class="k">Trust line</span><span class="v">Shipping, returns and payment safety sit beside the button, not in the footer.</span></div>
-        <div class="cap-item lead"><span class="n">04</span><span class="k">Fast checkout</span><span class="v">Dynamic-checkout button beside Add-to-Cart for buyers who are done deciding.</span></div>
+        <div class="cap-item lead"><span class="n">04</span><span class="k">Checkout path</span><span class="v">Add to cart confirms in place, with View cart and Checkout one tap away — no redirect, no interruptive drawer.</span></div>
         <div class="cap-tier2">
           <div class="cap-item"><span class="n">05</span><span class="k">Above-the-fold layout</span><span class="v">Title, price, one trust line and the button composed in a single frame.</span></div>
           <div class="cap-item"><span class="n">06</span><span class="k">Color options</span><span class="v">Render as swatches automatically, not text buttons.</span></div>
@@ -732,7 +759,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
         </div>
       </div>
       <button class="cap-toggle" id="capToggle" aria-expanded="false"><span class="lbl-show">View all 11 capabilities</span><span class="lbl-hide">Show the first four</span><span class="chev">⌄</span></button>
-      <p class="cap-foot">Eleven points, four section files, one product page template. <b>The full list is in the configuration reference.</b></p>
+      <p class="cap-foot">Eleven points, three section files, one product page template. <b>The full list is in the configuration reference.</b></p>
     </div>
   </div>
 </section>
@@ -753,7 +780,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
           <div class="vb-screen">
             <!-- status / island row -->
             <div class="vb-status">
-              <span class="vb-time">9:41</span>
+              <span class="vb-time">3:10</span>
               <span class="vb-island"></span>
               <span class="vb-sigs"><i></i><i></i><i></i></span>
             </div>
@@ -837,11 +864,11 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>see it live</div>
     <h2><span class="wipe">The full page, live. Not a screenshot.</span></h2>
-    <p class="sub">A real Shopify product page with Decision-Flow installed. Click every variant, scroll past the button, open the cart.</p>
+    <p class="sub">First the walkthrough — the installed page, explained as it runs. Then the live store: click every variant, scroll past the button, open the cart.</p>
     <div class="proof-stage">
       <div class="proof-back"></div>
       <div class="browser">
-        <div class="bar"><span></span><span></span><span></span><div class="url">demo.astriva.co/products/commuter-pack</div></div>
+        <div class="bar"><span></span><span></span><span></span><div class="url">demo.astrivastudio.com/products/commuter-pack</div></div>
         <div class="view"><div class="ring"></div><div class="ring r2"></div><div class="play"><i class="ti ti-player-play"></i></div></div>
       </div>
     </div>
@@ -884,11 +911,46 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
       <details><summary>Could it break my store? <span class="ctrl"><i class="ti ti-plus"></i></span></summary>
         <div class="body">It only touches the product page. Nothing near checkout, payments or app integrations. Because the sections sit alongside your theme, you can switch back to your old template anytime.</div></details>
       <details><summary>Do I need to code? <span class="ctrl"><i class="ti ti-plus"></i></span></summary>
-        <div class="body">No. You add sections and adjust settings in the theme editor. If you can add a theme section, you can install this, and the setup guide walks through it screen by screen.</div></details>
+        <div class="body">No code to write. You upload the provided files, then everything else happens in the theme editor and admin — the setup guide walks through every screen, and the whole install runs on a duplicate theme, so your live store stays untouched until you publish.</div></details>
       <details><summary>What if my conversion doesn't move? <span class="ctrl"><i class="ti ti-plus"></i></span></summary>
         <div class="body">Honest answer: this fixes how the product page behaves at the variant click, the disappearing button and the reopening cart. It can't create demand or fix a weak offer. If add-to-carts already happen and checkouts are inconsistent, this is built for exactly that gap.</div></details>
       <details><summary>Why trust it before there are reviews? <span class="ctrl"><i class="ti ti-plus"></i></span></summary>
         <div class="body">astriva is a solo build and Decision-Flow is its first product, so no wall of testimonials, and I won't manufacture one. What there is: eight published breakdowns of where product pages lose buyers, and a live demo you can click through yourself.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 7B · COMPARE -->
+<section class="compare band" id="compare">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>the going rate</div>
+    <h2><span class="wipe">Four ways to fix the same page.</span></h2>
+<p class="sub">A developer, a builder subscription, an audit, or Decision-Flow. The difference isn’t only the price. It’s what actually arrives, and what’s left running in your theme afterward.</p>    <div class="cmp-grid">
+      <div class="cmp-card">
+        <div class="cmp-name">Freelance developer</div>
+        <p class="cmp-desc">Custom-builds the same behaviors into your theme. You write the spec, you manage the build.</p>
+        <div class="cmp-price">$400–800+</div>
+        <div class="cmp-terms">per quote · one to three weeks</div>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-name">Page-builder subscription</div>
+        <p class="cmp-desc">Rebuilds the page inside an app. Renders through app code, and the rent never ends.</p>
+        <div class="cmp-price">$228–468</div>
+        <div class="cmp-terms">every year · for as long as the page is yours</div>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-name">CRO audit</div>
+        <p class="cmp-desc">A report on where the page leaks. The diagnosis arrives as a PDF; the repair is still on you.</p>
+        <div class="cmp-price">from $749</div>
+        <div class="cmp-terms">diagnosis only · build not included</div>
+      </div>
+      <div class="cmp-card is-df">
+        <div class="cmp-tag">the native route</div>
+        <div class="cmp-name">Decision-Flow</div>
+        <p class="cmp-desc">A complete section system in native Liquid. Installs inside the theme you already have — no app layer, no rebuild, nothing left renting space.</p>
+        <div class="cmp-price">$99 once</div>
+        <div class="cmp-terms">10–20 min in the theme editor · yours outright</div>
+      </div>
     </div>
   </div>
 </section>
@@ -900,22 +962,22 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
       <div>
         <div class="eyebrow on-dark"><span class="dot"></span>price</div>
         <h2>One-time. No subscription.</h2>
-        <p class="pl">One recovered checkout, just one, covers it. $49 is the whole cost of stopping the page from handing buyers back.</p>
+        <p class="pl">You pay it once. For a store already paying for traffic, $99 is a day of ad spend, spent one time, to stop the page from handing back the buyers your ads keep earning.</p>
         <div class="price-rows">
           <div class="pr"><span class="k">Install time</span><span class="v data">10 to 20 min on typical OS 2.0 themes</span></div>
-          <div class="pr"><span class="k">Works best with</span><span class="v">Dawn family + most OS 2.0 themes</span></div>
+          <div class="pr"><span class="k">Theme requirement</span><span class="v">Built for OS 2.0 themes. Best on standard product-page setups.</span></div>
           <div class="pr"><span class="k">Heavy customization</span><span class="v">Minor styling. Covered by 14-day support</span></div>
+          <div class="pr"><span class="k">Safe install</span><span class="v">Installs on a copy of your theme. Your live store stays untouched until you publish</span></div>
         </div>
       </div>
       <div class="price-cardwrap" id="priceWrap">
         <span class="brk tl" id="brkTL"></span>
         <span class="brk br" id="brkBR"></span>
         <div class="price-card">
-          <div class="row"><span class="amt" id="priceAmt">$49</span><span class="was">$69</span><span class="badge">EARLY RELEASE</span></div>
+          <div class="row"><span class="amt" id="priceAmt">$99</span><span class="next">then $149</span><span class="badge">LAUNCH PRICE</span></div>
           <div class="note">One-time payment · no recurring fees · no upsells</div>
-<a href="https://astrivastudio.gumroad.com/l/decision-flow" class="btn-primary" target="_blank" rel="noopener">
-  Get Decision-Flow <span aria-hidden="true">→</span>
-</a>          <div class="guar">Install-confidence guarantee · instant download via Gumroad</div>
+<div class="bonus"><i class="ti ti-package"></i><span>The full Decision-Flow system is included: 3 sections, 1 product-page template, setup guide, and config reference.</span></div>  Get Decision-Flow <span aria-hidden="true">→</span>
+</a>          <div class="guar">Instant download via Gumroad.</div>
         </div>
       </div>
     </div>
@@ -928,7 +990,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
     <h2>Your page already <span class="em">earned</span> the buyer.</h2>
     <p class="sub">Decision-Flow keeps the page steady at the variant click, the disappearing button and the reopening cart, so the buyer you brought stays bought.</p>
     <div class="trio"><span>Not a theme</span><span>·</span><span>Not a redesign</span><span>·</span><span>Install in 10 minutes</span></div>
-    <a href="#pricing" class="btn-primary">Get Decision-Flow <span class="px" style="font-family:'JetBrains Mono';font-weight:600;">$49</span> <span aria-hidden="true">→</span></a>
+    <a href="#pricing" class="btn-primary">Get Decision-Flow <span class="px" style="font-family:'JetBrains Mono';font-weight:600;">$99</span> <span aria-hidden="true">→</span></a>
   </div>
 </section>
 
@@ -976,10 +1038,12 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 /* observer: L1 mech run + L2 section .in */
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');if(e.target.id==='mech')e.target.classList.add('run');io.unobserve(e.target);}});},{threshold:.25});
-  ['deliverable','mech','proof','fit','close','pricing'].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+  ['deliverable','mech','proof','fit','compare','close','pricing'].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
 })();
 /* accordion */
 (function(){var b=document.getElementById('capBlock'),t=document.getElementById('capToggle');if(t)t.addEventListener('click',function(){var open=b.classList.toggle('open');t.setAttribute('aria-expanded',open?'true':'false');});})();
+/* proof walkthrough: click play -> load YouTube embed */
+(function(){var view=document.querySelector('.proof .view'),play=document.querySelector('.proof .play');if(!view||!play)return;play.addEventListener('click',function(){view.classList.add('playing');view.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/YOUTUBE_VIDEO_ID?autoplay=1&rel=0" title="Decision-Flow walkthrough" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>';});})();
 </script>
 
 <!-- GSAP: cost collapse + pricing lock -->
