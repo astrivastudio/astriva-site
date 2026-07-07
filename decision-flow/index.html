@@ -1045,7 +1045,7 @@ footer{background:var(--ground);border-top:1px solid var(--line);padding:34px 0;
 /* accordion */
 (function(){var b=document.getElementById('capBlock'),t=document.getElementById('capToggle');if(t)t.addEventListener('click',function(){var open=b.classList.toggle('open');t.setAttribute('aria-expanded',open?'true':'false');});})();
 /* proof walkthrough: click play -> load YouTube embed */
-(function(){var view=document.querySelector('.proof .view'),play=document.querySelector('.proof .play');if(!view||!play)return;play.addEventListener('click',function(){view.classList.add('playing');view.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/YOUTUBE_VIDEO_ID?autoplay=1&rel=0" title="Decision-Flow walkthrough" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>';});})();
+(function(){var view=document.querySelector('.proof .view'),play=document.querySelector('.proof .play');if(!view||!play)return;play.addEventListener('click',function(){view.classList.add('playing');view.innerHTML='<iframe src="https://www.youtube.com/embed/JUr5OigT6-M?autoplay=1&rel=0&playsinline=1" title="Decision-Flow walkthrough" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>';});})();
 </script>
 
 <!-- GSAP: cost collapse + pricing lock -->
